@@ -143,6 +143,7 @@ export function createMountedSession(session: SessionModel) {
   }
 
   const composerRef: Composer = {
+    insertText: (text) => composer.insert(text),
     attach: (part) => composer.context.add(part),
     update: (id, patch) => composer.context.updateComment(id, patch),
     detach: (id) => composer.context.removeComment(id),

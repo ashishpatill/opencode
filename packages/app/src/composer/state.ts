@@ -3,7 +3,8 @@ import { createStore, type SetStoreFunction } from "solid-js/store"
 import { Persist, persisted } from "@/runtime/persistence/storage"
 import { ServerScope } from "@/runtime/server/scope"
 import type { Platform } from "@/runtime/platform/platform"
-import { clonePrompt } from "./prompt-parts"
+import { clonePrompt, promptLength } from "./prompt-parts"
+import { insertText } from "./editor/actions"
 import {
   ComposerStore,
   DEFAULT_PROMPT,
@@ -165,6 +166,20 @@ function createComposerStateValue(store: ComposerStore, setStore: SetStoreFuncti
       },
     },
     set: (prompt: Prompt, cursorPosition?: number) => actions.set(prompt, cursorPosition),
+    // Inserts at the caret, or appends when the composer is empty, leaving what
+    // the user already typed in place. Mirrors the editor's draft.addText so
+    // dictated and typed text share one path.
+    insert: (text: string) => {
+      if (!text) return
+      const cursor = store.cursor ?? promptLength(store.prompt)
+      batch(() =>
+        setStore((state) => ({
+          prompt: insertText(state.prompt, cursor, text),
+          cursor: cursor + text.length,
+          retry: undefined,
+        })),
+      )
+    },
     reset: () => actions.reset(),
     capture: () => value,
   }

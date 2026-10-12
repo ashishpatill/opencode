@@ -492,6 +492,17 @@ export interface ComposerNote {
 /** The session screen's composer: the parts attached to the routed session's next prompt. */
 export interface Composer {
   /**
+   * Inserts text at the caret, or appends when the composer is empty.
+   *
+   * Unlike replacing the prompt, this leaves anything the user already typed
+   * in place, so an extension that captures text from the user (voice dictation,
+   * for example) can hand it over without discarding their draft. The caret
+   * moves to the end of the inserted text.
+   *
+   * @param text - The text to insert.
+   */
+  insertText(text: string): void
+  /**
    * Attaches a file or a note to the next prompt.
    *
    * @param part - The part to attach.

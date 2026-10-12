@@ -94,7 +94,7 @@ export function createComposerEditorActions(input: ComposerStateStoreInput) {
   }
 }
 
-function insertText(prompt: ComposerPrompt, cursor: number, content: string): ComposerPrompt {
+export function insertText(prompt: ComposerPrompt, cursor: number, content: string): ComposerPrompt {
   let position = 0
   let inserted = false
 

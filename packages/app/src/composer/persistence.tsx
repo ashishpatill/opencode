@@ -177,6 +177,7 @@ export const { use: useComposerState, provider: ComposerPersistenceProvider } = 
           session().context.updateComment(commentID, next),
         replaceComments: (items: ContextItem[]) => session().context.replaceComments(items),
       },
+      insert: (text: string, scope?: PromptScope) => pick(scope).insert(text),
       set: (prompt: Prompt, cursorPosition?: number, scope?: PromptScope) => pick(scope).set(prompt, cursorPosition),
       reset: (scope?: PromptScope) => pick(scope).reset(),
     }
