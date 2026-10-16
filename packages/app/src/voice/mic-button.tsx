@@ -1,8 +1,8 @@
-import { Show, createSignal, onCleanup } from "solid-js"
+import { Match, Show, Switch, createEffect, createSignal, onCleanup } from "solid-js"
 import { IconButton } from "@opencode/ui/icon-button"
 import { Icon } from "@opencode/ui/icon"
-import type { DictationController } from "./controller"
-import { dictationView, LEVELS } from "./view-model"
+import type { SessionState } from "./session"
+import { dictationView, downloadPercent, LEVELS } from "./view-model"
 
 const FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧"] as const
 
@@ -15,14 +15,12 @@ const FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧"] as const
  * glyph would resize the composer and cause a visible reflow.
  */
 export type MicButtonProps = {
-  controller: DictationController
+  /** Session state as an accessor, so Solid tracks it as a dependency. */
+  state: () => SessionState
   /** Latest mic RMS in 0..1, or undefined when unknown. */
   level?: () => number | undefined
-  /** Microphone permission or device failure; shown instead of starting. */
-  error?: () => string | undefined
-  disabled?: boolean
-  onStart: () => void
-  onStop: () => void
+  /** Single control: the session decides which of start/stop applies. */
+  onToggle: () => void
   onCancel: () => void
 }
 
@@ -30,29 +28,24 @@ export function MicButton(props: MicButtonProps) {
   const [spin, setSpin] = createSignal(0)
   let timer: ReturnType<typeof setInterval> | undefined
 
-  // One timer for the whole control, running only while something animates, so
-  // an idle composer costs nothing.
-  const sync = () => {
-    const animating = props.controller.phase === "transcribing"
-
-    if (animating && !timer) {
-      timer = setInterval(() => setSpin((value) => (value + 1) % FRAMES.length), 120)
-    } else if (!animating && timer) {
-      clearInterval(timer)
-      timer = undefined
-    }
+  const stopTimer = () => {
+    if (timer) clearInterval(timer)
+    timer = undefined
   }
 
-  onCleanup(() => {
-    if (timer) clearInterval(timer)
+  // One timer for the whole control, running only while something animates, so
+  // an idle composer costs nothing. Driven by an effect rather than the click
+  // handler so the timer is right when a dictation starts any other way.
+  createEffect(() => {
+    const busy = props.state().busy
+
+    if (busy && !timer) timer = setInterval(() => setSpin((value) => (value + 1) % FRAMES.length), 120)
+    else if (!busy && timer) stopTimer()
   })
 
-  const view = () =>
-    dictationView(props.controller, {
-      level: props.level?.(),
-      error: props.error?.(),
-      disabled: props.disabled,
-    })
+  onCleanup(stopTimer)
+
+  const view = () => dictationView(props.state(), { level: props.level?.() })
 
   return (
     <div class="flex items-center gap-1.5" data-slot="composer-mic">
@@ -76,17 +69,22 @@ export function MicButton(props: MicButtonProps) {
         size="normal"
         disabled={view().disabled}
         aria-label={view().label}
-        title={view().label}
-        onClick={() => {
-          sync()
-
-          if (view().active) props.onStop()
-          else props.onStart()
-        }}
+        // Carries the reason a disabled control cannot run, so it is reachable
+        // by keyboard and screen reader rather than only as transient text.
+        title={view().title}
+        onClick={() => props.onToggle()}
       >
-        <Show when={view().icon === "spinner"} fallback={<Icon name={view().icon} />}>
-          <span class="text-xs leading-none">{FRAMES[spin()]}</span>
-        </Show>
+        <Switch>
+          <Match when={view().icon === "spinner"}>
+            <span class="text-xs leading-none">{FRAMES[spin()]}</span>
+          </Match>
+          <Match when={view().icon === "download"}>
+            <span class="text-[10px] tabular-nums leading-none">{downloadPercent(props.state().downloading)}%</span>
+          </Match>
+          <Match when={true}>
+            <Icon name={view().icon} />
+          </Match>
+        </Switch>
       </IconButton>
       <Show when={view().showCancel}>
         <IconButton

@@ -15,6 +15,27 @@ export const SAMPLE_RATE = 16_000
 /** Why recognition could not produce text. */
 export const TranscriptionError = Schema.Literals(["unavailable", "no-speech", "failed"])
 
+/**
+ * `needs-download` is distinct from `unavailable`: weights are fetched on first
+ * use, so dictation works on a fresh install once they arrive. Reporting that
+ * as unavailable would leave the composer control disabled with no way to
+ * trigger the download at all.
+ */
+export const VoicePhase = Schema.Literals([
+  "unavailable",
+  "needs-download",
+  "downloading",
+  "ready",
+  "error",
+])
+
+export const VoiceStatus = Schema.Struct({
+  phase: VoicePhase,
+  /** Present when the engine cannot run, so the UI can explain why. */
+  error: Schema.optional(Schema.String),
+  progress: Schema.optional(Schema.Struct({ bytes: Schema.Number, total: Schema.Number })),
+})
+
 export const Transcribe = Rpc.make("VoiceTranscribe", {
   payload: {
     /** Raw samples in -1..1, one channel at SAMPLE_RATE. */
@@ -27,14 +48,16 @@ export const Transcribe = Rpc.make("VoiceTranscribe", {
   error: TranscriptionError,
 })
 
-/** Whether a local engine and its weights are ready, for UI enablement. */
-export const VoiceStatus = Rpc.make("VoiceStatus", {
-  success: Schema.Struct({
-    /** False until weights finish loading; the button stays disabled meanwhile. */
-    ready: Schema.Boolean,
-    /** Present when no engine can run, so the UI can explain why. */
-    error: Schema.optional(Schema.String),
-  }),
+export const Status = Rpc.make("VoiceStatus", {
+  success: VoiceStatus,
 })
 
-export const VoiceRpcs = RpcGroup.make(Transcribe, VoiceStatus)
+/**
+ * Starts the first-run weight download without transcribing, so the composer
+ * can show progress for 622 MB rather than appearing to hang.
+ */
+export const Prepare = Rpc.make("VoicePrepare", {
+  success: VoiceStatus,
+})
+
+export const VoiceRpcs = RpcGroup.make(Transcribe, Status, Prepare)

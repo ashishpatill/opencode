@@ -374,6 +374,16 @@ export function createComposerEditor(input: {
     value() {
       return draft.state.prompt.map((part) => ("content" in part ? part.content : "")).join("")
     },
+    /**
+     * Inserts text at the caret, or appends when the composer is empty.
+     *
+     * The one path dictated text takes, so a half-typed prompt is extended
+     * rather than replaced — the same entry point the editor's own typing uses.
+     */
+    insert(text: string) {
+      if (!text) return
+      draft.addText(text)
+    },
     parts() {
       return draft.state.prompt
     },

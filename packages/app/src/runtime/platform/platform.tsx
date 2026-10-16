@@ -4,6 +4,7 @@ import type { Accessor } from "solid-js"
 import type { DesktopMenuAction } from "@/shell/commands/desktop-menu"
 import type { DraftStore } from "@/runtime/persistence/drafts"
 import type { Bridge } from "@opencode/gui-extensions/sdk/bridge"
+import type { PlatformVoiceStatus } from "./voice"
 
 type PickerPaths = string | string[] | null
 
@@ -30,6 +31,8 @@ export type FatalRendererErrorLog = {
   platform: PlatformName
   os?: DesktopOS
 }
+
+
 
 type PlatformBase = {
   /** App version */
@@ -113,8 +116,20 @@ type PlatformBase = {
   /** Record a fatal renderer error in platform logs (desktop only) */
   recordFatalRendererError?(error: FatalRendererErrorLog): Promise<void>
 
-  /** Whether a local speech engine and its weights are ready (desktop only) */
-  voiceStatus?(): Promise<{ ready: boolean; error?: string }>
+  /**
+   * Where local dictation stands (desktop only).
+   *
+   * `needs-download` is distinct from `unavailable`: weights are fetched on
+   * first use, so the control stays enabled rather than becoming permanently
+   * unreachable.
+   */
+  voiceStatus?(): Promise<PlatformVoiceStatus>
+
+  /**
+   * Starts the first-run weight download so progress can be shown, instead of
+   * the first dictation appearing to hang.
+   */
+  prepareVoice?(): Promise<PlatformVoiceStatus>
 
   /**
    * Transcribes raw 16 kHz mono samples with the main process's local engine.

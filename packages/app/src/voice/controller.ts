@@ -24,7 +24,7 @@ export type CaptureState = {
   readonly cancelled: boolean
 }
 
-export type StartResult = { readonly ok: true } | { readonly ok: false; readonly reason: string }
+export type StartResult = { readonly ok: true; readonly id: number } | { readonly ok: false; readonly reason: string }
 
 export class DictationController {
   #next = 1
@@ -76,7 +76,12 @@ export class DictationController {
     this.#order.push(id)
     this.#emit()
 
-    return { ok: true }
+    return { ok: true, id }
+  }
+
+  /** The id of the most recently accepted capture, if any is still live. */
+  currentId(): number | undefined {
+    return this.#latest()?.id
   }
 
   /** Recording finished; audio is being recognized. */

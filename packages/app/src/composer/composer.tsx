@@ -7,6 +7,7 @@ import { Keybind } from "@opencode/ui/keybind"
 import { ProviderModelIcon } from "@/providers/models/provider-group"
 import { Tooltip } from "@opencode/ui/tooltip"
 import { ComposerEditor } from "./editor/editor"
+import { ComposerVoice } from "./voice-control"
 import { ModelSelectorPopover } from "@/providers/models/select-dialog"
 import { DialogSelectModelUnpaid } from "@/providers/models/unpaid"
 import { formatKeybind, useCommand } from "@/shell/commands/command"
@@ -37,6 +38,7 @@ export function Composer(props: {
         alternateKeybind={[formatKeybind("mod", language.t), "↵"]}
         exitShellKeybind={[formatKeybind("esc", language.t)]}
         suggestionBoundary={props.suggestionBoundary}
+        mic={<ComposerVoice insert={props.model.insert} />}
         modelControl={
           <ComposerModelControl
             loading={props.model.model.loading}

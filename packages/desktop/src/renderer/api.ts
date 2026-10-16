@@ -73,6 +73,7 @@ export const api: ElectronAPI = {
     ),
   writeClipboardText: (text) => invoke("FilesWriteClipboardText", { text }),
   voiceStatus: () => invoke("VoiceStatus"),
+  prepareVoice: () => invoke("VoicePrepare"),
   transcribeVoice: (input) =>
     invoke("VoiceTranscribe", {
       samples: Array.from(input.samples),

@@ -1,5 +1,6 @@
 import type { DesktopMenuAction } from "@opencode/app/desktop-menu"
 import type { DesktopNativeBundle } from "@opencode/app/i18n/desktop-native"
+import type { PlatformVoiceStatus } from "@opencode/app/platform/voice"
 import type { WindowBootstrap } from "../shared/window-bootstrap"
 import type {
   ClipboardImage,
@@ -49,7 +50,8 @@ export type ElectronAPI = {
   revealPath(path: string): Promise<boolean>
   readClipboardImage(): Promise<ClipboardImage | null>
   writeClipboardText(text: string): Promise<void>
-  voiceStatus(): Promise<{ ready: boolean; error?: string }>
+  voiceStatus(): Promise<PlatformVoiceStatus>
+  prepareVoice(): Promise<PlatformVoiceStatus>
   transcribeVoice(input: {
     samples: Float32Array
     sampleRate: number

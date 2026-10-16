@@ -13,8 +13,10 @@ import { SAMPLE_RATE, voiceActivity } from "./chunk"
  */
 
 export const PRE_ROLL_MS = 450
+
 export const SHORT_TAP_MS = 300
 /** Trailing silence that ends a recording on its own. */
+
 export const STOP_SILENCE_MS = 1500
 
 export type CaptureResult = {
@@ -42,7 +44,13 @@ export class MicrophoneCapture {
   #processor: ScriptProcessorNode | undefined
   #recorded: Float32Array[] = []
   #length = 0
-  #started = 0
+  /**
+   * Start time as NaN when idle.
+   *
+   * A numeric sentinel cannot work: a clock legitimately starting at 0 would
+   * read as "never started" and silently disable the short-tap rule.
+   */
+  #started = Number.NaN
   #lastLoud = 0
   #heardSpeech = false
   #options: CaptureOptions
@@ -58,28 +66,34 @@ export class MicrophoneCapture {
   /** Opens the microphone. Throws a readable message the composer can show. */
   async start(): Promise<void> {
     if (this.#stream) return
+
     if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
       throw new Error("Microphone capture needs a secure context and a browser")
     }
 
     const now = this.#options.now ?? (() => Date.now())
-    this.#stream = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        channelCount: 1,
-        echoCancellation: true,
-        noiseSuppression: true,
-        ...(this.#options.deviceId ? { deviceId: this.#options.deviceId } : {}),
-      },
-      video: false,
-    })
+
+    const audio: MediaTrackConstraints = {
+      channelCount: 1,
+      echoCancellation: true,
+      noiseSuppression: true,
+    }
+
+    // Omitted rather than spread: an empty spread hides that the property is
+    // absent, and `deviceId: undefined` is not the same request as no key.
+    if (this.#options.deviceId) audio.deviceId = this.#options.deviceId
+
+    this.#stream = await navigator.mediaDevices.getUserMedia({ audio, video: false })
 
     const context = new AudioContext()
     // The stream may open at 48 kHz; the models want 16 kHz mono, so resample
     // here rather than shipping a rate no engine accepts.
+
     if (context.sampleRate !== SAMPLE_RATE) {
       // AudioContext cannot be told a rate directly, so capture at the device
       // rate and resample per buffer below.
     }
+
     this.#context = context
     this.#source = context.createMediaStreamSource(this.#stream)
     this.#processor = context.createScriptProcessor(4096, 1, 1)
@@ -94,6 +108,7 @@ export class MicrophoneCapture {
       const resampled = resample(input, context.sampleRate, SAMPLE_RATE)
       this.#append(resampled)
       this.#options.onLevel?.(rmsOf(resampled))
+
       if (rmsOf(resampled) > 0.01) {
         this.#heardSpeech = true
         this.#lastLoud = now()
@@ -118,20 +133,23 @@ export class MicrophoneCapture {
   async stop(): Promise<CaptureResult> {
     const now = this.#options.now ?? (() => Date.now())
     const elapsed = now() - this.#started
-    const shortTap = this.#started > 0 && elapsed < SHORT_TAP_MS
+    // NaN when never started, so a stop without a start reports no tap.
+    const shortTap = !Number.isNaN(this.#started) && elapsed < SHORT_TAP_MS
     const silent = !this.#heardSpeech
 
     this.#disconnect()
 
     const samples = new Float32Array(this.#length)
     let offset = 0
+
     for (const buffer of this.#recorded) {
       samples.set(buffer, offset)
       offset += buffer.length
     }
+
     this.#recorded = []
     this.#length = 0
-    this.#started = 0
+    this.#started = Number.NaN
 
     return { samples, sampleRate: SAMPLE_RATE, shortTap, silent }
   }
@@ -145,6 +163,7 @@ export class MicrophoneCapture {
   get shouldAutoStop(): boolean {
     if (!this.#stream || !this.#heardSpeech) return false
     const now = this.#options.now ?? (() => Date.now())
+
     return now() - this.#lastLoud >= STOP_SILENCE_MS
   }
 
@@ -155,6 +174,7 @@ export class MicrophoneCapture {
     } catch {
       // already torn down
     }
+
     this.#stream?.getTracks().forEach((track) => track.stop())
     void this.#context?.close().catch(() => {})
     this.#processor = undefined
@@ -167,7 +187,9 @@ export class MicrophoneCapture {
 function rmsOf(samples: Float32Array): number {
   if (samples.length === 0) return 0
   let sum = 0
+
   for (let i = 0; i < samples.length; i++) sum += samples[i] * samples[i]
+
   return Math.sqrt(sum / samples.length)
 }
 
@@ -177,6 +199,7 @@ function resample(input: Float32Array, from: number, to: number): Float32Array {
   const ratio = from / to
   const length = Math.round(input.length / ratio)
   const out = new Float32Array(length)
+
   for (let i = 0; i < length; i++) {
     const position = i * ratio
     const index = Math.floor(position)
@@ -185,6 +208,7 @@ function resample(input: Float32Array, from: number, to: number): Float32Array {
     const b = input[index + 1] ?? a
     out[i] = a + (b - a) * frac
   }
+
   return out
 }
 

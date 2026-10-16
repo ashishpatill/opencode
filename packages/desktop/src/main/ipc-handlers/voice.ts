@@ -1,6 +1,11 @@
 import { Effect } from "effect"
 import { VoiceRpcs } from "../../shared/ipc-rpc"
-import { transcribeSamples, voiceStatus } from "../voice/engine"
+import { prepareVoiceEngine, registerVoiceEngine, transcribeSamples, voiceStatus } from "../voice/engine"
+import { createParakeetEngine } from "../voice/parakeet"
+
+// Constructing the engine is free; the weights and the native session are only
+// touched when something asks, so registering at import costs nothing on launch.
+registerVoiceEngine(createParakeetEngine())
 
 export const voiceHandlers = VoiceRpcs.toLayer(
   Effect.gen(function* () {
@@ -14,6 +19,7 @@ export const voiceHandlers = VoiceRpcs.toLayer(
           ),
         ),
       VoiceStatus: () => Effect.promise(() => voiceStatus()),
+      VoicePrepare: () => Effect.promise(() => prepareVoiceEngine()),
     })
   }),
 )
