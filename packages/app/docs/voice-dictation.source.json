@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Voice Dictation in the OpenCode Desktop App",
+    "subtitle": "Click mic to record, stop to transcribe locally, insert at the caret \u2014 no cloud, no API key",
+    "output": ".archify/architecture-voice-dictation-20261013-021929/voice-dictation.html",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "url": "https://github.com/anomalyco/opencode",
+      "provider": "github",
+      "revision": "e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6"
+    }
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "You",
+      "sublabel": "click mic / speak",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        124,
+        62
+      ]
+    },
+    {
+      "id": "micbtn",
+      "type": "frontend",
+      "label": "Mic Button",
+      "sublabel": "composer toolbar",
+      "pos": [
+        250,
+        300
+      ],
+      "size": [
+        136,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/composer/composer.tsx",
+          "label": "composer shell"
+        }
+      ]
+    },
+    {
+      "id": "spinner",
+      "type": "frontend",
+      "label": "Level + Spinner",
+      "sublabel": "live amplitude, rAF",
+      "pos": [
+        250,
+        165
+      ],
+      "size": [
+        136,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/composer/editor/editor.tsx",
+          "label": "editor surface"
+        }
+      ]
+    },
+    {
+      "id": "capture",
+      "type": "frontend",
+      "label": "Audio Capture",
+      "sublabel": "getUserMedia 16k mono",
+      "pos": [
+        500,
+        300
+      ],
+      "size": [
+        140,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/servers/connect/camera.ts",
+          "label": "getUserMedia precedent"
+        }
+      ]
+    },
+    {
+      "id": "chunker",
+      "type": "backend",
+      "label": "Chunker",
+      "sublabel": "\u226435 s windows",
+      "pos": [
+        500,
+        165
+      ],
+      "size": [
+        140,
+        62
+      ]
+    },
+    {
+      "id": "engine",
+      "type": "backend",
+      "label": "Local Engine",
+      "sublabel": "Parakeet / whisper GGUF",
+      "pos": [
+        745,
+        165
+      ],
+      "size": [
+        150,
+        62
+      ],
+      "tag": "on-device",
+      "sources": [
+        {
+          "path": "packages/ai/src/protocols/openai-transcription.ts",
+          "label": "transcription protocol shape"
+        }
+      ]
+    },
+    {
+      "id": "session_mgr",
+      "type": "backend",
+      "label": "Session Rotator",
+      "sublabel": "drop scratch, keep weights",
+      "pos": [
+        745,
+        300
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "insert",
+      "type": "frontend",
+      "label": "Composer.insert",
+      "sublabel": "insert at caret",
+      "pos": [
+        995,
+        300
+      ],
+      "size": [
+        140,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/composer/state.ts",
+          "line": 172,
+          "label": "insert implementation"
+        }
+      ]
+    },
+    {
+      "id": "extapi",
+      "type": "security",
+      "label": "Extension Composer",
+      "sublabel": "insertText()",
+      "pos": [
+        995,
+        165
+      ],
+      "size": [
+        140,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/gui-extensions/src/sdk/host-apis.ts",
+          "line": 504,
+          "label": "interface method"
+        }
+      ]
+    },
+    {
+      "id": "cmdline",
+      "type": "frontend",
+      "label": "Typed Input",
+      "sublabel": "keyboard path",
+      "pos": [
+        1230,
+        300
+      ],
+      "size": [
+        130,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/composer/editor/actions.ts",
+          "line": 97,
+          "label": "shared insertText helper"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "Desktop app process (renderer)",
+      "wraps": [
+        "micbtn",
+        "spinner",
+        "capture",
+        "insert",
+        "extapi",
+        "cmdline"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "On-device inference (weights resident, never networked)",
+      "wraps": [
+        "chunker",
+        "engine",
+        "session_mgr"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "user-mic",
+      "from": "user",
+      "to": "micbtn",
+      "label": "click to start",
+      "variant": "emphasis"
+    },
+    {
+      "id": "mic-spinner",
+      "from": "micbtn",
+      "to": "spinner",
+      "label": "amplitude frames",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "labelDy": -34
+    },
+    {
+      "id": "mic-capture",
+      "from": "micbtn",
+      "to": "capture",
+      "label": "getUserMedia"
+    },
+    {
+      "id": "capture-chunker",
+      "from": "capture",
+      "to": "chunker",
+      "label": "PCM frames",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "labelDy": -34
+    },
+    {
+      "id": "chunker-engine",
+      "from": "chunker",
+      "to": "engine",
+      "label": "windowed audio"
+    },
+    {
+      "id": "engine-session",
+      "from": "engine",
+      "to": "session_mgr",
+      "label": "rotate after run",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 34
+    },
+    {
+      "id": "session-insert",
+      "from": "session_mgr",
+      "to": "insert",
+      "label": "transcript text"
+    },
+    {
+      "id": "insert-cmd",
+      "from": "insert",
+      "to": "cmdline",
+      "label": "one text store"
+    },
+    {
+      "id": "ext-insert",
+      "from": "extapi",
+      "to": "insert",
+      "label": "insertText()",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 34
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "User journey",
+      "items": [
+        "Click mic \u2192 spinner animates live, stop is always reachable",
+        "Transcript lands at the caret, never over a half-typed prompt",
+        "Typed and dictated text share one insert path"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Latency budget (measured, warm)",
+      "items": [
+        "Parakeet short clip: 79\u2013115 ms warm median",
+        "19 s clip: 276\u2013350 ms; 57 s: 713\u2013759 ms",
+        "Model weights stay resident; only scratch rotates"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Interruption safety",
+      "items": [
+        "Tap under 300 ms discards \u2014 a stray click never records",
+        "New capture never cancels already-accepted work",
+        "Cancel targets the active capture, not an older pending job"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Boundaries",
+      "items": [
+        "Audio never leaves the device; no provider key required",
+        "insertText is the only new public extension surface",
+        "App-level model copy needed for the new method"
+      ]
+    }
+  ]
+}
