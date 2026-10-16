@@ -4980,17 +4980,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <div class="pulse-dot"></div>
         <h1>Voice Dictation in the OpenCode Desktop App</h1>
       </div>
-      <p class="subtitle">Click mic to record, stop to transcribe locally, insert at the caret — no cloud, no API key</p>
+      <p class="subtitle">Composer mic → capture → main-process recognition → insert at caret. Local only, no provider key</p>
     </div>
 
-    <script id="archify-source-evidence-data" type="application/json">{"schemaVersion":1,"verified":true,"repository":{"url":"https://github.com/anomalyco/opencode","revision":"e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6","shortRevision":"e3c5b61","label":"anomalyco/opencode","href":"https://github.com/anomalyco/opencode/tree/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6"},"referenceCount":7,"nodes":{"micbtn":[{"path":"packages/app/src/composer/composer.tsx","label":"composer shell","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/app/src/composer/composer.tsx"}],"spinner":[{"path":"packages/app/src/composer/editor/editor.tsx","label":"editor surface","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/app/src/composer/editor/editor.tsx"}],"capture":[{"path":"packages/app/src/servers/connect/camera.ts","label":"getUserMedia precedent","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/app/src/servers/connect/camera.ts"}],"engine":[{"path":"packages/ai/src/protocols/openai-transcription.ts","label":"transcription protocol shape","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/ai/src/protocols/openai-transcription.ts"}],"insert":[{"path":"packages/app/src/composer/state.ts","line":172,"label":"insert implementation","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/app/src/composer/state.ts#L172"}],"extapi":[{"path":"packages/gui-extensions/src/sdk/host-apis.ts","line":504,"label":"interface method","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/gui-extensions/src/sdk/host-apis.ts#L504"}],"cmdline":[{"path":"packages/app/src/composer/editor/actions.ts","line":97,"label":"shared insertText helper","href":"https://github.com/anomalyco/opencode/blob/e3c5b6116b16e548aa4d435b908e9f44cf5ae0d6/packages/app/src/composer/editor/actions.ts#L97"}]}}</script>
+    <script id="archify-source-evidence-data" type="application/json">{"schemaVersion":1,"verified":true,"repository":{"url":"https://github.com/anomalyco/opencode","revision":"5206d995499693a4f02a293d785ffa958772fc7e","shortRevision":"5206d99","label":"anomalyco/opencode","href":"https://github.com/anomalyco/opencode/tree/5206d995499693a4f02a293d785ffa958772fc7e"},"referenceCount":10,"nodes":{"composer":[{"path":"packages/app/src/composer/editor/editor.tsx","line":93,"label":"mic slot on the editor","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/composer/editor/editor.tsx#L93"}],"button":[{"path":"packages/app/src/voice/mic-button.tsx","label":"mic control component","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/voice/mic-button.tsx"}],"state":[{"path":"packages/app/src/voice/controller.ts","line":29,"label":"DictationController","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/voice/controller.ts#L29"}],"capture":[{"path":"packages/app/src/voice/capture.ts","line":38,"label":"MicrophoneCapture","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/voice/capture.ts#L38"}],"chunk":[{"path":"packages/app/src/voice/chunk.ts","line":20,"label":"MAX_CHUNK_SECONDS","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/voice/chunk.ts#L20"}],"rpc":[{"path":"packages/desktop/src/shared/ipc-rpc/voice.ts","line":18,"label":"Transcribe RPC","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/desktop/src/shared/ipc-rpc/voice.ts#L18"}],"engine":[{"path":"packages/desktop/src/main/voice/engine.ts","line":20,"label":"VoiceEngine port","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/desktop/src/main/voice/engine.ts#L20"}],"insert":[{"path":"packages/app/src/composer/editor/actions.ts","line":97,"label":"shared insertText helper","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/composer/editor/actions.ts#L97"}],"extapi":[{"path":"packages/gui-extensions/src/sdk/host-apis.ts","line":504,"label":"public extension surface","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/gui-extensions/src/sdk/host-apis.ts#L504"}],"typed":[{"path":"packages/app/src/composer/editor/editor.tsx","line":380,"label":"normal-mode actions row","href":"https://github.com/anomalyco/opencode/blob/5206d995499693a4f02a293d785ffa958772fc7e/packages/app/src/composer/editor/editor.tsx#L380"}]}}</script>
     <script id="archify-i18n-data" type="application/json">{"locale":"en","messages":{"viewer.kind.frontend":"Frontend","viewer.kind.backend":"Backend","viewer.kind.database":"Database","viewer.kind.cloud":"Cloud","viewer.kind.security":"Security","viewer.kind.messagebus":"Message bus","viewer.kind.external":"External","viewer.kind.neutral":"Neutral","viewer.kind.node":"Node","viewer.kind.start":"Start","viewer.kind.active":"Active","viewer.kind.waiting":"Waiting","viewer.kind.decision":"Decision","viewer.kind.success":"Success","viewer.kind.failure":"Failure","viewer.toolbar.actions":"Diagram actions","viewer.theme.toggle.title":"Toggle theme (T)","viewer.theme.toggle":"Toggle color theme","viewer.theme.dark":"Dark","viewer.theme.light":"Light","viewer.preset.choose.title":"Choose visual style (S cycles)","viewer.preset.choose":"Choose visual style","viewer.preset.style":"Style","viewer.preset.menu":"Visual style","viewer.preset.identity":"Visual identity","viewer.preset.cycles":"to cycle","viewer.preset.classic":"Classic","viewer.preset.classic.short":"Classic","viewer.preset.classic.hint":"Stable technical default","viewer.preset.flow":"Signal Flow","viewer.preset.flow.short":"Flow","viewer.preset.flow.hint":"Motion-forward presentation","viewer.preset.blueprint":"Blueprint","viewer.preset.blueprint.hint":"Engineering review","viewer.preset.editorial":"Editorial","viewer.preset.editorial.hint":"Publication and launch notes","viewer.preset.badge.signalFlow":"SIGNAL FLOW","viewer.preset.badge.blueprint":"BLUEPRINT / REV 01","viewer.preset.badge.editorial":"EDITORIAL / FIELD NOTE","viewer.preset.badge.editorialPlate":"ARCHIFY / PLATE 04","viewer.preset.current":"Visual style: {style}. Choose visual style","viewer.motion.live":"Live","viewer.motion.still":"Still","viewer.motion.pause":"Pause motion","viewer.motion.resume":"Resume motion","viewer.motion.reduced":"Motion paused by reduced-motion preference","viewer.motion.hidden":"Motion paused while this page is hidden","viewer.motion.yielding":"Pause motion; currently yielding to {owner}","viewer.motion.yielding.title":"Live preview enabled · yielding to {owner}","viewer.owner.route":"Route Probe","viewer.owner.lens":"Semantic Lens","viewer.owner.relationship":"Relationship Preview","viewer.owner.intent":"Intent Trace","viewer.owner.focus":"semantic focus","viewer.owner.legend":"legend preview","viewer.owner.reader":"reader interaction","viewer.present.enter":"Enter presentation stage","viewer.present.enter.title":"Presentation stage (F)","viewer.present.exit":"Exit presentation stage","viewer.present.exit.title":"Exit presentation stage (F or Escape)","viewer.present.present":"Present","viewer.present.exit.label":"Exit","viewer.export.button":"Export","viewer.export.button.title":"Export diagram (E)","viewer.export.diagram":"Export diagram","viewer.export.menu":"Export","viewer.export.subtitle":"Portable, clean outputs","viewer.export.share":"Share","viewer.export.shareCard":"Share Card","viewer.export.routeShareCard":"Route Share Card","viewer.export.reachShareCard":"Reach Share Card","viewer.export.copyDiagram":"Copy diagram","viewer.export.clipboardPng":"PNG to clipboard","viewer.export.raster":"Raster images","viewer.export.image":"Image","viewer.export.lossless":"Lossless image","viewer.export.compact":"Compact image","viewer.export.modern":"Modern image","viewer.export.vectorMotion":"Vector and motion","viewer.export.vectorMotion.heading":"Vector \u0026 motion","viewer.export.editable":"Editable vector","viewer.export.svg.auto":"SVG · Auto","viewer.export.svg.auto.hint":"Matches host theme","viewer.export.svg.light":"SVG · Light","viewer.export.svg.light.hint":"Always light","viewer.export.svg.dark":"SVG · Dark","viewer.export.svg.dark.hint":"Always dark","viewer.export.motion6s":"6s motion","viewer.export.unsupported":"Not supported by this browser","viewer.export.clipboardUnsupported":"Clipboard image write not supported by this browser","viewer.export.clipboardUnsupported.short":"Clipboard image write not supported in this browser.","viewer.export.motionUnavailable":"Motion capture unavailable in this browser","viewer.export.webmUnavailable":"WebM unavailable in this browser","viewer.export.failed":"Export failed: {message}","viewer.export.unknownVariant":"Unknown Share Card variant: {variant}","viewer.export.routeRequired":"Trace a route before exporting a Route Share Card","viewer.export.reachRequired":"Trace authored reach before exporting a Reach Share Card","viewer.export.unknown":"unknown","viewer.export.routeFailed":"Route Share Card export failed: {message}","viewer.export.reachFailed":"Reach Share Card export failed: {message}","viewer.export.copyFailed":"Copy failed: {message}","viewer.export.copiedPng":"Copied PNG to clipboard","viewer.export.downloadedRoute":"Downloaded Route Share Card","viewer.export.downloadedReach":"Downloaded Reach Share Card","viewer.export.downloadedWebm":"Downloaded WebM","viewer.export.recording":"Recording 6 seconds of motion…","viewer.export.card.routeSummary.one":"Path: {source} → {target} · {count} step","viewer.export.card.routeSummary.other":"Path: {source} → {target} · {count} steps","viewer.export.card.reachSummary":"Authored {direction} from {origin} · {nodes} · {links} · max {hops}","viewer.export.card.node.one":"{count} node","viewer.export.card.node.other":"{count} nodes","viewer.export.card.link.one":"{count} link","viewer.export.card.link.other":"{count} links","viewer.export.card.hop.one":"{count} hop","viewer.export.card.hop.other":"{count} hops","viewer.export.card.routeBadge":"ARCHIFY · ROUTE · {hops}","viewer.export.card.reachBadge":"ARCHIFY · {direction} REACH","viewer.export.direction.upstream":"Upstream","viewer.export.direction.downstream":"Downstream","viewer.export.error.canvasUnavailable":"Canvas unavailable for {label}","viewer.export.error.contextUnavailable":"2D canvas context unavailable for {label}","viewer.export.error.toBlobUnavailable":"canvas.toBlob unavailable for {label}","viewer.export.error.toBlobNull":"canvas.toBlob returned no data for {label}","viewer.export.error.variantsCombined":"Share Card variants cannot be combined","viewer.export.error.viewerState":"Share Card export could not remove temporary viewer state","viewer.export.error.routeState":"Route Card export could not preserve the resolved route safely","viewer.export.error.reachState":"Reach Card export could not preserve authored reach safely","viewer.export.error.webmRequirements":"WebM motion export requires a trace animation and browser MediaRecorder support","viewer.export.error.mediaRecorder":"MediaRecorder failed","viewer.export.error.emptyWebm":"MediaRecorder produced an empty WebM","viewer.export.error.webmBackground":"SVG background could not be loaded for WebM export","viewer.guide.title":"Explore this system","viewer.focus.selectedNodes":"{count} selected nodes","viewer.guide.eyebrow":"Diagram guide","viewer.guide.close":"Close diagram guide","viewer.guide.inspecting":"Inspecting compiled semantics","viewer.guide.actions":"Diagram exploration actions","viewer.guide.find":"Find any node","viewer.guide.find.hint":"Search labels, responsibilities, kinds, and stable IDs.","viewer.guide.route":"Trace a route","viewer.guide.route.aria":"Trace a directed route","viewer.guide.route.hint":"Ask how two semantic nodes connect in authored direction.","viewer.guide.map":"See the whole system","viewer.guide.map.hint":"Open Semantic Radar with a live viewport and stable nodes.","viewer.guide.lens":"Compare semantic kinds","viewer.guide.lens.hint":"Count roles, reveal their traffic, and compare direct authored links.","viewer.guide.present":"Enter Presentation Stage","viewer.guide.present.hint":"Give the live diagram the viewport without changing export.","viewer.guide.shortcuts":"Additional keyboard shortcuts","viewer.guide.shortcut.export":"Export","viewer.guide.shortcut.theme":"Theme","viewer.guide.shortcut.style":"Style","viewer.guide.shortcut.reset":"Reset","viewer.guide.shortcut.zoomIn":"Zoom in","viewer.guide.shortcut.zoomOut":"Zoom out","viewer.guide.shortcut.close":"Close","viewer.guide.facts":"{nodes} · {relationships}","viewer.guide.fact.node.one":"{count} semantic node","viewer.guide.fact.node.other":"{count} semantic nodes","viewer.guide.fact.relationship.one":"{count} relationship","viewer.guide.fact.relationship.other":"{count} relationships","viewer.guide.open":"Open diagram guide","viewer.finder.title":"Find a node","viewer.finder.close":"Close node finder","viewer.finder.placeholder":"Search labels or IDs","viewer.finder.search":"Search diagram nodes","viewer.finder.results":"Diagram nodes","viewer.finder.empty":"No matching nodes","viewer.finder.result.focus":"Focus {label}","viewer.finder.result.routeStart":"Choose {label} as route start","viewer.finder.result.routeTarget":"Choose {label} as route destination, {links}","viewer.finder.status.empty":"No matching nodes","viewer.finder.status.count.one":"{count} matching node","viewer.finder.status.count.other":"{count} matching nodes","viewer.finder.noun.nodes":"nodes","viewer.finder.link.one":"{count} link","viewer.finder.link.other":"{count} links","viewer.finder.result.focus.one":"Focus {label}, {count} related connection","viewer.finder.result.focus.other":"Focus {label}, {count} related connections","viewer.finder.status.filtered":"{visible} of {available} {noun}","viewer.finder.status.all":"{available} {noun}","viewer.passport.eyebrow":"Semantic passport","viewer.passport.metadata":"Node metadata","viewer.passport.evidence":"Verified source evidence","viewer.passport.verified":"Verified source","viewer.passport.verificationScope":"Verified against local Git at the pinned revision. Remote access has not been checked.","viewer.passport.reach":"Authored reach","viewer.passport.reach.trace":"Trace authored reachability","viewer.passport.upstream":"Upstream","viewer.passport.downstream":"Downstream","viewer.passport.upstream.trace":"Trace upstream authored reachability","viewer.passport.downstream.trace":"Trace downstream authored reachability","viewer.passport.close":"Close semantic passport","viewer.passport.move":"Move semantic passport. Drag, use arrow keys, or press Home to reset.","viewer.passport.copy":"Copy link","viewer.passport.copy.focus":"Copy link to focused node","viewer.passport.relations":"Relations","viewer.passport.relations.show":"Show connected relationships","viewer.passport.relations.hide":"Hide connected relationships","viewer.passport.relations.list":"Connected relationships","viewer.passport.copyRelation":"Copy relation","viewer.passport.copyNode":"Copy node","viewer.passport.copyPinned":"Copy link to pinned relationship","viewer.passport.copySource":"Copy link to source node","viewer.passport.copy.focused.success":"Focused node link copied","viewer.passport.copy.pinned.success":"Pinned relationship link copied","viewer.passport.copy.focused.failed":"Could not copy focused node link","viewer.passport.copy.pinned.failed":"Could not copy pinned relationship link","viewer.passport.relationship.none":"No connected relationships","viewer.passport.relationship.count.one":"{count} relation","viewer.passport.relationship.count.other":"{count} relations","viewer.passport.relationship.show.one":"Show {count} connected relationship","viewer.passport.relationship.show.other":"Show {count} connected relationships","viewer.passport.relationship.summary":"{out} outgoing · {in} incoming{loops}","viewer.passport.relationship.loops":" · {count} loop","viewer.passport.relationship.explorer":"Direct relationship explorer","viewer.passport.relationship.help":"Use arrow keys to explore relationships. Press Enter or Space to pin details; Escape clears.","viewer.passport.relationship.loopsBack":"loops back","viewer.passport.relationship.connectsTo":"connects to","viewer.passport.relationship.connectsFrom":"connects from","viewer.passport.relationship.pinned":"Pinned relationship · {from} → {to} · {label}","viewer.passport.relationship.inspect":"Inspect relationship {index} of {total}: {from} to {to}, {label}. Press Enter for details.","viewer.passport.relationship.group.out":"Outgoing","viewer.passport.relationship.group.in":"Incoming","viewer.passport.relationship.group.loop":"Self loops","viewer.passport.relationship.row":"{group}: {relationship}, {neighbor}","viewer.passport.relationship.direction.out":"OUT →","viewer.passport.relationship.direction.in":"← IN","viewer.passport.relationship.direction.loop":"LOOP","viewer.passport.sourceCount.one":"{count} verified source reference","viewer.passport.sourceCount.other":"{count} verified source references","viewer.passport.sourceMarker":"SRC","viewer.passport.beacon.one":"{count} verified source; focus this node to inspect","viewer.passport.beacon.other":"{count} verified sources; focus this node to inspect","viewer.passport.repository.open":"Open verified repository revision {revision}","viewer.passport.source.open":"Open verified source {path} at revision {revision}","viewer.passport.source.openLink":"Open ↗","viewer.passport.reach.upstream.one":"Trace {count} upstream authored node","viewer.passport.reach.upstream.other":"Trace {count} upstream authored nodes","viewer.passport.reach.downstream.one":"Trace {count} downstream authored node","viewer.passport.reach.downstream.other":"Trace {count} downstream authored nodes","viewer.passport.reach.noUpstream":"No upstream authored nodes","viewer.passport.reach.noDownstream":"No downstream authored nodes","viewer.passport.reach.status":"{direction} · {nodes} nodes · {links} links · max {hops} hops","viewer.route.eyebrow":"Path","viewer.route.start":"Click where the path starts","viewer.route.start.find":"Find start","viewer.route.start.find.aria":"Find a route start","viewer.route.copy":"Copy link","viewer.route.copy.aria":"Copy link to traced route","viewer.route.clear":"Clear","viewer.route.clear.aria":"Clear route probe","viewer.route.traced":"Path","viewer.route.pickTwo":"Click two nodes on the diagram","viewer.route.pickOne":"Click a node on the diagram","viewer.route.controls":"Route journey controls","viewer.route.previous":"Previous route position","viewer.route.play":"Play route journey","viewer.route.pause":"Pause route journey","viewer.route.replay":"Replay route journey","viewer.route.next":"Next route position","viewer.route.journey":"Journey","viewer.route.pause.label":"Pause","viewer.route.replay.label":"Replay","viewer.route.overview":"Overview","viewer.route.overview.aria":"Show complete route overview","viewer.route.instructions":"Click a start, then an end. Paths follow the arrows.","viewer.route.destination":"Where does the path from {label} end?","viewer.route.destination.find":"Find target","viewer.route.destination.find.aria":"Find a reachable route destination","viewer.route.differentDestination":"Choose a different destination","viewer.route.distinct":"Pick two different nodes.","viewer.route.unreachable":"Cannot reach {label} from here","viewer.route.unreachable.detail":"{target} cannot be reached from {source} along the arrows. Pick a highlighted node.","viewer.route.start.instructions":"Next, pick the end. Only nodes you can reach will light up.","viewer.route.copy.success":"Traced route link copied","viewer.route.copy.failed":"Could not copy traced route link","viewer.route.position":"Route position {index} of {total}: {label}","viewer.route.step":"Step {index} of {total} · {phase} · {label}","viewer.route.motionRequired":"Automatic journey requires Live motion","viewer.route.trigger.clear":"Clear traced route","viewer.route.overview.status":"{nodes} · {hops} · shortest path","viewer.route.overview.node.one":"{count} node","viewer.route.overview.node.other":"{count} nodes","viewer.route.overview.hop.one":"{count} step","viewer.route.overview.hop.other":"{count} steps","viewer.route.phase.playing":"Playing","viewer.route.phase.complete":"Complete","viewer.route.phase.inspecting":"Inspecting","viewer.route.destination.count.one":"{count} reachable node is highlighted. Click it.","viewer.route.destination.count.other":"{count} reachable nodes are highlighted. Click one.","viewer.route.noOutgoing":"No arrows lead out of this node. Clear it and pick another start.","viewer.route.result.title":"{source} to {target}","viewer.route.finder.source.title":"Choose route start","viewer.route.finder.source.placeholder":"Search route sources","viewer.route.finder.source.empty":"No matching route sources","viewer.route.finder.source.results":"Nodes that can start a route","viewer.route.finder.source.noun":"route sources","viewer.route.finder.source.badge":"start","viewer.route.finder.target.title":"Destination from {label}","viewer.route.finder.target.placeholder":"Search reachable destinations","viewer.route.finder.target.empty":"No matching reachable destinations","viewer.route.finder.target.results":"Reachable route destinations","viewer.route.finder.target.noun":"reachable destinations","viewer.route.hop.one":"{count} hop","viewer.route.hop.other":"{count} hops","viewer.lens.eyebrow":"Semantic lens","viewer.lens.title":"Compare system roles","viewer.lens.close":"Close semantic lens","viewer.lens.instruction":"Choose up to two semantic kinds. One reveals its real traffic; two compare only direct authored relationships.","viewer.lens.kinds":"Semantic kinds","viewer.lens.choose":"Choose a kind to inspect its nodes and touching relationships.","viewer.lens.copy":"Copy link to semantic lens","viewer.lens.clear":"Clear semantic lens","viewer.lens.open":"Open semantic lens","viewer.lens.openActive":"Open active semantic lens","viewer.lens.legend":"Semantic legend","viewer.lens.legend.inspect.one":"Inspect {label}, {count} node","viewer.lens.legend.inspect.other":"Inspect {label}, {count} nodes","viewer.lens.kind.count.one":"{label}, {count} node","viewer.lens.kind.count.other":"{label}, {count} nodes","viewer.lens.compare.one":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} direct relationship","viewer.lens.compare.other":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} direct relationships","viewer.lens.single":"{nodes} · {relationships} · connected peers remain visible","viewer.lens.node.one":"{count} {label} node","viewer.lens.node.other":"{count} {label} nodes","viewer.lens.relationship.one":"{count} touching relationship","viewer.lens.relationship.other":"{count} touching relationships","viewer.radar.title":"Semantic radar","viewer.radar.building":"Building overview","viewer.radar.openFull":"Open full semantic radar","viewer.radar.open":"Open radar","viewer.radar.close":"Close semantic radar","viewer.radar.surface":"Diagram overview. Click a node to focus it, or use arrow keys to pan.","viewer.radar.click":"Click node","viewer.radar.drag":"Drag to pan","viewer.radar.space":"Semantic radar needs more MAP space.","viewer.radar.nodes":"Semantic diagram radar nodes","viewer.radar.focus":"Focus {label} from Semantic Radar","viewer.radar.status":"{count} nodes · {viewport}","viewer.radar.fullMap":"{count} nodes · full map","viewer.radar.compacted":"Radar compacted to avoid covering the Semantic Passport or MAP controls.","viewer.radar.cancelWaiting":"Cancel semantic radar waiting for more MAP space","viewer.radar.needsSpace":"Semantic radar needs more visible MAP space","viewer.radar.viewport.full":"full map","viewer.radar.viewport.width":"{percent}% width","viewer.radar.viewport.scale":"{percent}% viewport","viewer.nav.controls":"Diagram view controls","viewer.nav.route":"Trace a directed route","viewer.nav.route.title":"Trace route (R)","viewer.nav.route.short":"PATH","viewer.nav.radar":"Open semantic radar","viewer.nav.radar.title":"Semantic radar (M)","viewer.nav.radar.short":"MAP","viewer.nav.lens":"Open semantic lens","viewer.nav.lens.title":"Semantic lens (L)","viewer.nav.lens.short":"LENS","viewer.nav.find":"Find a node","viewer.nav.find.title":"Find a node (/)","viewer.outline.title":"Node index","viewer.rail.show":"Notes \u0026 index","viewer.rail.controls":"Side panel","viewer.rail.collapse":"Collapse side panel","viewer.rail.bottom":"Move panel below the diagram","viewer.rail.right":"Move panel beside the diagram","viewer.nav.guide":"Open diagram guide","viewer.nav.guide.title":"Diagram guide (?)","viewer.nav.zoomOut":"Zoom out","viewer.nav.zoomOut.title":"Zoom out (-)","viewer.nav.reset":"Reset diagram view","viewer.nav.reset.title":"Reset view (0)","viewer.nav.read":"READ","viewer.nav.zoomIn":"Zoom in","viewer.nav.zoomIn.title":"Zoom in (+)","viewer.nav.camera":"{hint}. Reset diagram view","viewer.nav.camera.title":"{semantic}{hint} · reset view (0)","viewer.nav.camera.semantic":"Semantic camera active · ","viewer.nav.level.map":"MAP","viewer.nav.level.read":"READ","viewer.nav.level.full":"FULL","viewer.nav.level.auto":"AUTO","viewer.nav.detail.map":"Zoom in to reveal relationship labels and node context","viewer.nav.detail.read":"Zoom in again to reveal tags and annotations","viewer.nav.detail.full":"Full diagram detail","viewer.intent.summary":"{label}. {out} outgoing, {in} incoming{loops}. {total} connections. Press Enter for details.","viewer.intent.loops":", {count} self loop","viewer.common.copied":"Copied","viewer.common.copyFailed":"Copy failed","viewer.common.copyLink":"Copy link","viewer.common.clear":"Clear","viewer.common.close":"Close"}}</script>
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / PLATE 04">
-      <svg viewBox="0 0 1430 450" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" data-reader-fit="intrinsic-height" data-reader-min-text="7.5" data-reader-primary-text="14">
+      <svg viewBox="0 0 1510 450" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" data-reader-fit="intrinsic-height" data-reader-min-text="7.5" data-reader-primary-text="14">
         <title id="archify-diagram-title">Voice Dictation in the OpenCode Desktop App</title>
-        <desc id="archify-diagram-description">Click mic to record, stop to transcribe locally, insert at the caret — no cloud, no API key</desc>
+        <desc id="archify-diagram-description">Composer mic → capture → main-process recognition → insert at caret. Local only, no provider key</desc>
         <!-- Definitions -->
         <defs>
           <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -5014,224 +5014,221 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Boundaries (behind everything) -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="security-group" data-composition-frame-id="0" data-composition-frame-label="Desktop app process (renderer)" x="220" y="135" width="1170" height="247" rx="8" class="c-security-group" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="security-group" data-composition-frame-id="0" data-composition-frame-label="Renderer (web bundle — no native module)" x="10" y="135" width="1460" height="247" rx="8" class="c-security-group" stroke-width="1"/>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="On-device inference (weights resident, never networked)" x="470" y="135" width="455" height="247" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="Main process (Node — inference lives here)" x="708.2516003032258" y="270" width="263.4967993935484" height="112" rx="12" class="c-region" stroke-width="1"/>
 
         <!-- Connection paths (before components for correct z-order) -->
         <g data-graph-role="automatic-crossover" style="--step:0">
-          <path data-graph-role="automatic-crossover-underlay" d="M 164 331 L 250 331" fill="none" stroke="var(--mask)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="user" data-edge-to="micbtn" data-edge-label="click to start" data-edge-key="0" data-edge-id="user-mic" data-composition-points="164,331;250,331" data-composition-crossover="halo" data-composition-independent="true" d="M 164 331 L 250 331" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 180 331 L 250 331" fill="none" stroke="var(--mask)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="composer" data-edge-to="button" data-edge-label="renders" data-edge-key="0" data-edge-id="composer-button" data-composition-points="180,331;250,331" data-composition-crossover="halo" data-composition-independent="true" d="M 180 331 L 250 331" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:1">
-          <path data-graph-role="automatic-crossover-underlay" d="M 318 300 L 318 227" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="micbtn" data-edge-to="spinner" data-edge-label="amplitude frames" data-edge-key="1" data-edge-id="mic-spinner" data-composition-points="318,300;318,227" data-composition-crossover="halo" data-composition-independent="true" d="M 318 300 L 318 227" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 325 300 L 325 227" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="button" data-edge-to="state" data-edge-label="phase" data-edge-key="1" data-edge-id="button-state" data-composition-points="325,300;325,227" data-composition-crossover="halo" data-composition-independent="true" d="M 325 300 L 325 227" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:2">
-          <path data-graph-role="automatic-crossover-underlay" d="M 386 331 L 500 331" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="micbtn" data-edge-to="capture" data-edge-label="getUserMedia" data-edge-key="2" data-edge-id="mic-capture" data-composition-points="386,331;500,331" data-composition-crossover="halo" data-composition-independent="true" d="M 386 331 L 500 331" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 555 300 L 555 227" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="capture" data-edge-to="chunk" data-edge-label="PCM frames" data-edge-key="2" data-edge-id="capture-chunk" data-composition-points="555,300;555,227" data-composition-crossover="halo" data-composition-independent="true" d="M 555 300 L 555 227" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:3">
-          <path data-graph-role="automatic-crossover-underlay" d="M 570 300 L 570 227" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="capture" data-edge-to="chunker" data-edge-label="PCM frames" data-edge-key="3" data-edge-id="capture-chunker" data-composition-points="570,300;570,227" data-composition-crossover="halo" data-composition-independent="true" d="M 570 300 L 570 227" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 630 196 L 760 196" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="chunk" data-edge-to="rpc" data-edge-label="windowed audio" data-edge-key="3" data-edge-id="chunk-rpc" data-composition-points="630,196;760,196" data-composition-crossover="halo" data-composition-independent="true" d="M 630 196 L 760 196" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:4">
-          <path data-graph-role="automatic-crossover-underlay" d="M 640 196 L 745 196" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="chunker" data-edge-to="engine" data-edge-label="windowed audio" data-edge-key="4" data-edge-id="chunker-engine" data-composition-points="640,196;745,196" data-composition-crossover="halo" data-composition-independent="true" d="M 640 196 L 745 196" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 840 227 L 840 300" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="rpc" data-edge-to="engine" data-edge-label="recognize" data-edge-key="4" data-edge-id="rpc-engine" data-composition-points="840,227;840,300" data-composition-crossover="halo" data-composition-independent="true" d="M 840 227 L 840 300" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:5">
-          <path data-graph-role="automatic-crossover-underlay" d="M 820 227 L 820 300" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="engine" data-edge-to="session_mgr" data-edge-label="rotate after run" data-edge-key="5" data-edge-id="engine-session" data-composition-points="820,227;820,300" data-composition-crossover="halo" data-composition-independent="true" d="M 820 227 L 820 300" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 920 331 L 1020 331" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="engine" data-edge-to="insert" data-edge-label="transcript" data-edge-key="5" data-edge-id="engine-insert" data-composition-points="920,331;1020,331" data-composition-crossover="halo" data-composition-independent="true" d="M 920 331 L 1020 331" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:6">
-          <path data-graph-role="automatic-crossover-underlay" d="M 895 331 L 995 331" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="session_mgr" data-edge-to="insert" data-edge-label="transcript text" data-edge-key="6" data-edge-id="session-insert" data-composition-points="895,331;995,331" data-composition-crossover="halo" data-composition-independent="true" d="M 895 331 L 995 331" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 1170 331 L 1300 331" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="insert" data-edge-to="typed" data-edge-label="one text store" data-edge-key="6" data-edge-id="insert-typed" data-composition-points="1170,331;1300,331" data-composition-crossover="halo" data-composition-independent="true" d="M 1170 331 L 1300 331" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:7">
-          <path data-graph-role="automatic-crossover-underlay" d="M 1135 331 L 1230 331" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="insert" data-edge-to="cmdline" data-edge-label="one text store" data-edge-key="7" data-edge-id="insert-cmd" data-composition-points="1135,331;1230,331" data-composition-crossover="halo" data-composition-independent="true" d="M 1135 331 L 1230 331" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        </g>
-        <g data-graph-role="automatic-crossover" style="--step:8">
-          <path data-graph-role="automatic-crossover-underlay" d="M 1065 227 L 1065 300" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="extapi" data-edge-to="insert" data-edge-label="insertText()" data-edge-key="8" data-edge-id="ext-insert" data-composition-points="1065,227;1065,300" data-composition-crossover="halo" data-composition-independent="true" d="M 1065 227 L 1065 300" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 1095 227 L 1095 300" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="extapi" data-edge-to="insert" data-edge-label="insertText()" data-edge-key="7" data-edge-id="ext-insert" data-composition-points="1095,227;1095,300" data-composition-crossover="halo" data-composition-independent="true" d="M 1095 227 L 1095 300" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
         </g>
 
         <!-- Components -->
-        <g id="node-user" data-node-id="user" data-node-label="You" tabindex="0" role="button" aria-label="Focus You, click mic / speak, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="click mic / speak" data-node-context="Architecture component">
-          <title>You · click mic / speak · Architecture component</title>
-          <rect x="40" y="300" width="124" height="62" rx="6" class="c-mask"/>
-          <rect x="40" y="300" width="124" height="62" rx="6" class="c-external" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(46 306) scale(0.6875)">
-            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
-            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+        <g id="node-composer" data-node-id="composer" data-node-label="Composer Mic" tabindex="0" role="button" aria-label="Focus Composer Mic, start / stop control, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="start / stop control" data-node-context="Renderer (web bundle — no native module)">
+          <title>Composer Mic · start / stop control · Renderer (web bundle — no native module)</title>
+          <rect x="40" y="300" width="140" height="62" rx="6" class="c-mask"/>
+          <rect x="40" y="300" width="140" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(46 306) scale(0.6875)">
+            <rect x="2" y="3" width="12" height="10" rx="2"/>
+            <path d="M2 6.5h12"/>
+            <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
+            <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="102" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">You</text>
-        <text data-detail="context" x="102" y="345" class="t-muted" font-size="9" text-anchor="middle">click mic / speak</text>
+          <text data-node-label="" data-detail-anchor="" x="110" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Composer Mic</text>
+        <text data-detail="context" x="110" y="345" class="t-muted" font-size="9" text-anchor="middle">start / stop control</text>
         </g>
 
-        <g id="node-micbtn" data-node-id="micbtn" data-node-label="Mic Button" tabindex="0" role="button" aria-label="Focus Mic Button, composer toolbar, Desktop app process (renderer)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="composer toolbar" data-node-context="Desktop app process (renderer)">
-          <title>Mic Button · composer toolbar · Desktop app process (renderer)</title>
-          <rect x="250" y="300" width="136" height="62" rx="6" class="c-mask"/>
-          <rect x="250" y="300" width="136" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
+        <g id="node-button" data-node-id="button" data-node-label="Dictation Control" tabindex="0" role="button" aria-label="Focus Dictation Control, level bar, spinner, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="level bar, spinner" data-node-context="Renderer (web bundle — no native module)">
+          <title>Dictation Control · level bar, spinner · Renderer (web bundle — no native module)</title>
+          <rect x="250" y="300" width="150" height="62" rx="6" class="c-mask"/>
+          <rect x="250" y="300" width="150" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(256 306) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="318" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Mic Button</text>
-        <text data-detail="context" x="318" y="345" class="t-muted" font-size="9" text-anchor="middle">composer toolbar</text>
+          <text data-node-label="" data-detail-anchor="" x="325" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Dictation Control</text>
+        <text data-detail="context" x="325" y="345" class="t-muted" font-size="9" text-anchor="middle">level bar, spinner</text>
         </g>
 
-        <g id="node-spinner" data-node-id="spinner" data-node-label="Level + Spinner" tabindex="0" role="button" aria-label="Focus Level + Spinner, live amplitude, rAF, Desktop app process (renderer)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="live amplitude, rAF" data-node-context="Desktop app process (renderer)">
-          <title>Level + Spinner · live amplitude, rAF · Desktop app process (renderer)</title>
-          <rect x="250" y="165" width="136" height="62" rx="6" class="c-mask"/>
-          <rect x="250" y="165" width="136" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
+        <g id="node-state" data-node-id="state" data-node-label="Capture State" tabindex="0" role="button" aria-label="Focus Capture State, ordered, cancellable, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="ordered, cancellable" data-node-context="Renderer (web bundle — no native module)">
+          <title>Capture State · ordered, cancellable · Renderer (web bundle — no native module)</title>
+          <rect x="250" y="165" width="150" height="62" rx="6" class="c-mask"/>
+          <rect x="250" y="165" width="150" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(256 171) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="318" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Level + Spinner</text>
-        <text data-detail="context" x="318" y="210" class="t-muted" font-size="9" text-anchor="middle">live amplitude, rAF</text>
+          <text data-node-label="" data-detail-anchor="" x="325" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Capture State</text>
+        <text data-detail="context" x="325" y="210" class="t-muted" font-size="9" text-anchor="middle">ordered, cancellable</text>
         </g>
 
-        <g id="node-capture" data-node-id="capture" data-node-label="Audio Capture" tabindex="0" role="button" aria-label="Focus Audio Capture, getUserMedia 16k mono, Desktop app process (renderer)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="getUserMedia 16k mono" data-node-context="Desktop app process (renderer)">
-          <title>Audio Capture · getUserMedia 16k mono · Desktop app process (renderer)</title>
-          <rect x="500" y="300" width="140" height="62" rx="6" class="c-mask"/>
-          <rect x="500" y="300" width="140" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(506 306) scale(0.6875)">
+        <g id="node-capture" data-node-id="capture" data-node-label="Mic Capture" tabindex="0" role="button" aria-label="Focus Mic Capture, getUserMedia 16k mono, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="getUserMedia 16k mono" data-node-context="Renderer (web bundle — no native module)">
+          <title>Mic Capture · getUserMedia 16k mono · Renderer (web bundle — no native module)</title>
+          <rect x="480" y="300" width="150" height="62" rx="6" class="c-mask"/>
+          <rect x="480" y="300" width="150" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(486 306) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="570" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Audio Capture</text>
-        <text data-detail="context" x="570" y="345" class="t-muted" font-size="9" text-anchor="middle">getUserMedia 16k mono</text>
+          <text data-node-label="" data-detail-anchor="" x="555" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Mic Capture</text>
+        <text data-detail="context" x="555" y="345" class="t-muted" font-size="9" text-anchor="middle">getUserMedia 16k mono</text>
         </g>
 
-        <g id="node-chunker" data-node-id="chunker" data-node-label="Chunker" tabindex="0" role="button" aria-label="Focus Chunker, ≤35 s windows, On-device inference (weights resident, never networked)" aria-pressed="false" data-node-kind="backend" data-node-sublabel="≤35 s windows" data-node-context="On-device inference (weights resident, never networked)">
-          <title>Chunker · ≤35 s windows · On-device inference (weights resident, never networked)</title>
-          <rect x="500" y="165" width="140" height="62" rx="6" class="c-mask"/>
-          <rect x="500" y="165" width="140" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(506 171) scale(0.6875)">
+        <g id="node-chunk" data-node-id="chunk" data-node-label="Chunker" tabindex="0" role="button" aria-label="Focus Chunker, ≤35 s windows, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="backend" data-node-sublabel="≤35 s windows" data-node-context="Renderer (web bundle — no native module)">
+          <title>Chunker · ≤35 s windows · Renderer (web bundle — no native module)</title>
+          <rect x="480" y="165" width="150" height="62" rx="6" class="c-mask"/>
+          <rect x="480" y="165" width="150" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(486 171) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="570" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Chunker</text>
-        <text data-detail="context" x="570" y="210" class="t-muted" font-size="9" text-anchor="middle">≤35 s windows</text>
+          <text data-node-label="" data-detail-anchor="" x="555" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Chunker</text>
+        <text data-detail="context" x="555" y="210" class="t-muted" font-size="9" text-anchor="middle">≤35 s windows</text>
         </g>
 
-        <g id="node-engine" data-node-id="engine" data-node-label="Local Engine" tabindex="0" role="button" aria-label="Focus Local Engine, Parakeet / whisper GGUF, On-device inference (weights resident, never networked)" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Parakeet / whisper GGUF" data-node-tag="on-device" data-node-context="On-device inference (weights resident, never networked)">
-          <title>Local Engine · Parakeet / whisper GGUF · On-device inference (weights resident, never networked) · on-device</title>
-          <rect x="745" y="165" width="150" height="62" rx="6" class="c-mask"/>
-          <rect x="745" y="165" width="150" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(751 171) scale(0.6875)">
+        <g id="node-rpc" data-node-id="rpc" data-node-label="VoiceTranscribe" tabindex="0" role="button" aria-label="Focus VoiceTranscribe, raw samples over IPC, Architecture component" aria-pressed="false" data-node-kind="messagebus" data-node-sublabel="raw samples over IPC" data-node-context="Architecture component">
+          <title>VoiceTranscribe · raw samples over IPC · Architecture component</title>
+          <rect x="760" y="165" width="160" height="62" rx="6" class="c-mask"/>
+          <rect x="760" y="165" width="160" height="62" rx="6" class="c-messagebus" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(766 171) scale(0.6875)">
+            <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/>
+            <circle cx="5" cy="4.5" r="1" class="sigil-fill"/>
+            <circle cx="10.5" cy="8" r="1" class="sigil-fill"/>
+            <circle cx="7" cy="11.5" r="1" class="sigil-fill"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="840" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">VoiceTranscribe</text>
+        <text data-detail="context" x="840" y="210" class="t-muted" font-size="9" text-anchor="middle">raw samples over IPC</text>
+        </g>
+
+        <g id="node-engine" data-node-id="engine" data-node-label="Engine Port" tabindex="0" role="button" aria-label="Focus Engine Port, no engine registered yet, Main process (Node — inference lives here)" aria-pressed="false" data-node-kind="backend" data-node-sublabel="no engine registered yet" data-node-tag="unavailable" data-node-context="Main process (Node — inference lives here)">
+          <title>Engine Port · no engine registered yet · Main process (Node — inference lives here) · unavailable</title>
+          <rect x="760" y="300" width="160" height="62" rx="6" class="c-mask"/>
+          <rect x="760" y="300" width="160" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(766 306) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="820" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Local Engine</text>
-        <text data-detail="context" x="820" y="210" class="t-muted" font-size="9" text-anchor="middle">Parakeet / whisper GGUF</text>
-        <text data-detail="fine" x="820" y="219" class="t-backend" font-size="7" text-anchor="middle">on-device</text>
+          <text data-node-label="" data-detail-anchor="" x="840" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Engine Port</text>
+        <text data-detail="context" x="840" y="345" class="t-muted" font-size="9" text-anchor="middle">no engine registered yet</text>
+        <text data-detail="fine" x="840" y="354" class="t-backend" font-size="7" text-anchor="middle">unavailable</text>
         </g>
 
-        <g id="node-session_mgr" data-node-id="session_mgr" data-node-label="Session Rotator" tabindex="0" role="button" aria-label="Focus Session Rotator, drop scratch, keep weights, On-device inference (weights resident, never networked)" aria-pressed="false" data-node-kind="backend" data-node-sublabel="drop scratch, keep weights" data-node-context="On-device inference (weights resident, never networked)">
-          <title>Session Rotator · drop scratch, keep weights · On-device inference (weights resident, never networked)</title>
-          <rect x="745" y="300" width="150" height="62" rx="6" class="c-mask"/>
-          <rect x="745" y="300" width="150" height="62" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(751 306) scale(0.6875)">
-            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="820" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Session Rotator</text>
-        <text data-detail="context" x="820" y="345" class="t-muted" font-size="9" text-anchor="middle">drop scratch, keep weights</text>
-        </g>
-
-        <g id="node-insert" data-node-id="insert" data-node-label="Composer.insert" tabindex="0" role="button" aria-label="Focus Composer.insert, insert at caret, Desktop app process (renderer)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="insert at caret" data-node-context="Desktop app process (renderer)">
-          <title>Composer.insert · insert at caret · Desktop app process (renderer)</title>
-          <rect x="995" y="300" width="140" height="62" rx="6" class="c-mask"/>
-          <rect x="995" y="300" width="140" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(1001 306) scale(0.6875)">
+        <g id="node-insert" data-node-id="insert" data-node-label="Composer.insert" tabindex="0" role="button" aria-label="Focus Composer.insert, insert at caret, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="insert at caret" data-node-context="Renderer (web bundle — no native module)">
+          <title>Composer.insert · insert at caret · Renderer (web bundle — no native module)</title>
+          <rect x="1020" y="300" width="150" height="62" rx="6" class="c-mask"/>
+          <rect x="1020" y="300" width="150" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(1026 306) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1065" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Composer.insert</text>
-        <text data-detail="context" x="1065" y="345" class="t-muted" font-size="9" text-anchor="middle">insert at caret</text>
+          <text data-node-label="" data-detail-anchor="" x="1095" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Composer.insert</text>
+        <text data-detail="context" x="1095" y="345" class="t-muted" font-size="9" text-anchor="middle">insert at caret</text>
         </g>
 
-        <g id="node-extapi" data-node-id="extapi" data-node-label="Extension Composer" tabindex="0" role="button" aria-label="Focus Extension Composer, insertText(), Desktop app process (renderer)" aria-pressed="false" data-node-kind="security" data-node-sublabel="insertText()" data-node-context="Desktop app process (renderer)">
-          <title>Extension Composer · insertText() · Desktop app process (renderer)</title>
-          <rect x="995" y="165" width="140" height="62" rx="6" class="c-mask"/>
-          <rect x="995" y="165" width="140" height="62" rx="6" class="c-security" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(1001 171) scale(0.6875)">
+        <g id="node-extapi" data-node-id="extapi" data-node-label="Extension Composer" tabindex="0" role="button" aria-label="Focus Extension Composer, insertText(), Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="security" data-node-sublabel="insertText()" data-node-context="Renderer (web bundle — no native module)">
+          <title>Extension Composer · insertText() · Renderer (web bundle — no native module)</title>
+          <rect x="1020" y="165" width="150" height="62" rx="6" class="c-mask"/>
+          <rect x="1020" y="165" width="150" height="62" rx="6" class="c-security" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(1026 171) scale(0.6875)">
             <path d="M8 2.2 13 4v3.5c0 3.1-1.8 5.4-5 6.5-3.2-1.1-5-3.4-5-6.5V4Z"/>
             <path d="m5.8 8 1.5 1.5 3-3"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1065" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Extension Composer</text>
-        <text data-detail="context" x="1065" y="210" class="t-muted" font-size="9" text-anchor="middle">insertText()</text>
+          <text data-node-label="" data-detail-anchor="" x="1095" y="194" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Extension Composer</text>
+        <text data-detail="context" x="1095" y="210" class="t-muted" font-size="9" text-anchor="middle">insertText()</text>
         </g>
 
-        <g id="node-cmdline" data-node-id="cmdline" data-node-label="Typed Input" tabindex="0" role="button" aria-label="Focus Typed Input, keyboard path, Desktop app process (renderer)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="keyboard path" data-node-context="Desktop app process (renderer)">
-          <title>Typed Input · keyboard path · Desktop app process (renderer)</title>
-          <rect x="1230" y="300" width="130" height="62" rx="6" class="c-mask"/>
-          <rect x="1230" y="300" width="130" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(1236 306) scale(0.6875)">
+        <g id="node-typed" data-node-id="typed" data-node-label="Typed Input" tabindex="0" role="button" aria-label="Focus Typed Input, keyboard path, Renderer (web bundle — no native module)" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="keyboard path" data-node-context="Renderer (web bundle — no native module)">
+          <title>Typed Input · keyboard path · Renderer (web bundle — no native module)</title>
+          <rect x="1300" y="300" width="140" height="62" rx="6" class="c-mask"/>
+          <rect x="1300" y="300" width="140" height="62" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(1306 306) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1295" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Typed Input</text>
-        <text data-detail="context" x="1295" y="345" class="t-muted" font-size="9" text-anchor="middle">keyboard path</text>
+          <text data-node-label="" data-detail-anchor="" x="1370" y="329" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Typed Input</text>
+        <text data-detail="context" x="1370" y="345" class="t-muted" font-size="9" text-anchor="middle">keyboard path</text>
         </g>
 
         <!-- Connection labels -->
-        <g data-detail="context" data-edge-from="user" data-edge-to="micbtn" data-edge-label="click to start" data-edge-key="0" data-edge-id="user-mic">
-          <rect x="168.4" y="311" width="77.2" height="14" rx="3" class="c-mask"/>
-          <text x="207" y="321" class="t-edge-emphasis" font-size="8" text-anchor="middle">click to start</text>
+        <g data-detail="context" data-edge-from="composer" data-edge-to="button" data-edge-label="renders" data-edge-key="0" data-edge-id="composer-button">
+          <rect x="193.2" y="311" width="43.6" height="14" rx="3" class="c-mask"/>
+          <text x="215" y="321" class="t-edge-emphasis" font-size="8" text-anchor="middle">renders</text>
         </g>
-        <g data-detail="context" data-edge-from="micbtn" data-edge-to="spinner" data-edge-label="amplitude frames" data-edge-key="1" data-edge-id="mic-spinner">
-          <rect x="274.6" y="246" width="86.8" height="14" rx="3" class="c-mask"/>
-          <text x="318" y="256" class="t-edge-dashed" font-size="8" text-anchor="middle">amplitude frames</text>
+        <g data-detail="context" data-edge-from="button" data-edge-to="state" data-edge-label="phase" data-edge-key="1" data-edge-id="button-state">
+          <rect x="308" y="280" width="34" height="14" rx="3" class="c-mask"/>
+          <text x="325" y="290" class="t-edge-dashed" font-size="8" text-anchor="middle">phase</text>
         </g>
-        <g data-detail="context" data-edge-from="micbtn" data-edge-to="capture" data-edge-label="getUserMedia" data-edge-key="2" data-edge-id="mic-capture">
-          <rect x="409.2" y="311" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="443" y="321" class="t-edge-default" font-size="8" text-anchor="middle">getUserMedia</text>
+        <g data-detail="context" data-edge-from="capture" data-edge-to="chunk" data-edge-label="PCM frames" data-edge-key="2" data-edge-id="capture-chunk">
+          <rect x="526" y="280" width="58" height="14" rx="3" class="c-mask"/>
+          <text x="555" y="290" class="t-edge-default" font-size="8" text-anchor="middle">PCM frames</text>
         </g>
-        <g data-detail="context" data-edge-from="capture" data-edge-to="chunker" data-edge-label="PCM frames" data-edge-key="3" data-edge-id="capture-chunker">
-          <rect x="541" y="246" width="58" height="14" rx="3" class="c-mask"/>
-          <text x="570" y="256" class="t-edge-default" font-size="8" text-anchor="middle">PCM frames</text>
+        <g data-detail="context" data-edge-from="chunk" data-edge-to="rpc" data-edge-label="windowed audio" data-edge-key="3" data-edge-id="chunk-rpc">
+          <rect x="656.4" y="176" width="77.2" height="14" rx="3" class="c-mask"/>
+          <text x="695" y="186" class="t-edge-default" font-size="8" text-anchor="middle">windowed audio</text>
         </g>
-        <g data-detail="context" data-edge-from="chunker" data-edge-to="engine" data-edge-label="windowed audio" data-edge-key="4" data-edge-id="chunker-engine">
-          <rect x="653.9" y="176" width="77.2" height="14" rx="3" class="c-mask"/>
-          <text x="692.5" y="186" class="t-edge-default" font-size="8" text-anchor="middle">windowed audio</text>
+        <g data-detail="context" data-edge-from="rpc" data-edge-to="engine" data-edge-label="recognize" data-edge-key="4" data-edge-id="rpc-engine">
+          <rect x="813.4" y="241" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="840" y="251" class="t-edge-security" font-size="8" text-anchor="middle">recognize</text>
         </g>
-        <g data-detail="context" data-edge-from="engine" data-edge-to="session_mgr" data-edge-label="rotate after run" data-edge-key="5" data-edge-id="engine-session">
-          <rect x="776.6" y="241" width="86.8" height="14" rx="3" class="c-mask"/>
-          <text x="820" y="251" class="t-edge-dashed" font-size="8" text-anchor="middle">rotate after run</text>
+        <g data-detail="context" data-edge-from="engine" data-edge-to="insert" data-edge-label="transcript" data-edge-key="5" data-edge-id="engine-insert">
+          <rect x="941" y="311" width="58" height="14" rx="3" class="c-mask"/>
+          <text x="970" y="321" class="t-edge-default" font-size="8" text-anchor="middle">transcript</text>
         </g>
-        <g data-detail="context" data-edge-from="session_mgr" data-edge-to="insert" data-edge-label="transcript text" data-edge-key="6" data-edge-id="session-insert">
-          <rect x="904" y="311" width="82" height="14" rx="3" class="c-mask"/>
-          <text x="945" y="321" class="t-edge-default" font-size="8" text-anchor="middle">transcript text</text>
+        <g data-detail="context" data-edge-from="insert" data-edge-to="typed" data-edge-label="one text store" data-edge-key="6" data-edge-id="insert-typed">
+          <rect x="1196.4" y="311" width="77.2" height="14" rx="3" class="c-mask"/>
+          <text x="1235" y="321" class="t-edge-default" font-size="8" text-anchor="middle">one text store</text>
         </g>
-        <g data-detail="context" data-edge-from="insert" data-edge-to="cmdline" data-edge-label="one text store" data-edge-key="7" data-edge-id="insert-cmd">
-          <rect x="1143.9" y="311" width="77.2" height="14" rx="3" class="c-mask"/>
-          <text x="1182.5" y="321" class="t-edge-default" font-size="8" text-anchor="middle">one text store</text>
-        </g>
-        <g data-detail="context" data-edge-from="extapi" data-edge-to="insert" data-edge-label="insertText()" data-edge-key="8" data-edge-id="ext-insert">
-          <rect x="1031.2" y="241" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="1065" y="251" class="t-edge-security" font-size="8" text-anchor="middle">insertText()</text>
+        <g data-detail="context" data-edge-from="extapi" data-edge-to="insert" data-edge-label="insertText()" data-edge-key="7" data-edge-id="ext-insert">
+          <rect x="1021.4000000000001" y="256.5" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="1055.2" y="266.5" class="t-edge-dashed" font-size="8" text-anchor="middle">insertText()</text>
         </g>
 
         <!-- Boundary labels (foreground masks keep routes out of titles) -->
-        <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="security-group" data-composition-frame-label="Desktop app process (renderer)">
-          <rect data-graph-role="structural-frame-label-mask" x="224" y="144" width="176.06453412903227" height="17" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="228" y="157.2258074516129" class="t-security" font-size="9.225807451612903" font-weight="600">Desktop app process (renderer)</text>
+        <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="security-group" data-composition-frame-label="Renderer (web bundle — no native module)">
+          <rect data-graph-role="structural-frame-label-mask" x="14" y="144" width="243.8064756129032" height="17" rx="3" class="c-mask"/>
+          <text data-boundary-label="" x="18" y="157.74193648387097" class="t-security" font-size="9.741936483870967" font-weight="600">Renderer (web bundle — no native module)</text>
         </g>
 
-        <g data-graph-role="structural-frame-label" data-composition-frame-id="1" data-composition-frame-kind="region" data-composition-frame-label="On-device inference (weights resident, never networked)">
-          <rect data-graph-role="structural-frame-label-mask" x="474" y="144" width="314.45164590322577" height="17" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="478" y="157.2258074516129" class="t-cloud" font-size="9.225807451612903" font-weight="600">On-device inference (weights resident, never networked)</text>
+        <g data-graph-role="structural-frame-label" data-composition-frame-id="1" data-composition-frame-kind="region" data-composition-frame-label="Main process (Node — inference lives here)">
+          <rect data-graph-role="structural-frame-label-mask" x="712.2516003032258" y="279" width="255.49679939354837" height="17" rx="3" class="c-mask"/>
+          <text data-boundary-label="" x="716.2516003032258" y="292.741936483871" class="t-cloud" font-size="9.741936483870967" font-weight="600">Main process (Node — inference lives here)</text>
         </g>
 
         <!-- Legend -->
@@ -5249,9 +5246,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             <rect x="245" y="425" width="16" height="10" rx="2.5" class="c-security" stroke-width="1"/>
             <text x="267" y="434" class="t-muted" font-size="10" font-weight="500">Security</text>
           </g>
-          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="External" data-legend-x="350" data-legend-baseline="434" data-legend-width="83">
-            <rect x="350" y="425" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
-            <text x="372" y="434" class="t-muted" font-size="10" font-weight="500">External</text>
+          <g data-legend-semantic-kind="messagebus" data-legend-kind="messagebus" data-legend-label="Message bus" data-legend-x="350" data-legend-baseline="434" data-legend-width="98">
+            <rect x="350" y="425" width="16" height="10" rx="2.5" class="c-messagebus" stroke-width="1"/>
+            <text x="372" y="434" class="t-muted" font-size="10" font-weight="500">Message bus</text>
           </g>
         </g>
       </svg>
@@ -5432,37 +5429,37 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     <div class="cards">
       <div class="card">
         <div class="card-header">
-          <div class="card-dot cyan"></div>
-          <h3>User journey</h3>
+          <div class="card-dot emerald"></div>
+          <h3>Built and tested</h3>
         </div>
         <ul>
-          <li>Click mic → spinner animates live, stop is always reachable</li>
-          <li>Transcript lands at the caret, never over a half-typed prompt</li>
-          <li>Typed and dictated text share one insert path</li>
+          <li>35 unit tests over state, chunking, capture and view state</li>
+          <li>Capture → transcribe → insert is wired end to end</li>
+          <li>No engine registered, so the mic reports unavailable and stays disabled</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-dot emerald"></div>
-          <h3>Latency budget (measured, warm)</h3>
+          <div class="card-dot cyan"></div>
+          <h3>Interruption rules</h3>
         </div>
         <ul>
-          <li>Parakeet short clip: 79–115 ms warm median</li>
-          <li>19 s clip: 276–350 ms; 57 s: 713–759 ms</li>
-          <li>Model weights stay resident; only scratch rotates</li>
+          <li>A tap under 300 ms is discarded, never transcribed</li>
+          <li>A new utterance never cancels accepted older work</li>
+          <li>Late results are fenced off before reaching the composer</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-dot amber"></div>
-          <h3>Interruption safety</h3>
+          <h3>Latency and memory</h3>
         </div>
         <ul>
-          <li>Tap under 300 ms discards — a stray click never records</li>
-          <li>New capture never cancels already-accepted work</li>
-          <li>Cancel targets the active capture, not an older pending job</li>
+          <li>Chunked at the 35 s processor window, not the encoder limit</li>
+          <li>Scratch released after every run, including failures</li>
+          <li>Weights stay resident; only per-input buffers rotate</li>
         </ul>
       </div>
 
@@ -5473,8 +5470,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         </div>
         <ul>
           <li>Audio never leaves the device; no provider key required</li>
-          <li>insertText is the only new public extension surface</li>
-          <li>App-level model copy needed for the new method</li>
+          <li>Inference in main, because a native module can&#39;t ship in the renderer</li>
+          <li>insertText() is the one new public extension surface</li>
         </ul>
       </div>
     </div>

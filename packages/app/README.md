@@ -29,6 +29,11 @@ It correctly bundles Solid in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
+## Documentation
+
+- [Voice dictation](docs/README.md) — mic dictation architecture, with an
+  interactive diagram you can open straight from disk.
+
 ## E2E Testing
 
 Locally, Playwright starts the Vite dev server automatically via `webServer`, or reuses one already running at the configured address. The browser suite uses isolated API fixtures rather than a live opencode backend.
