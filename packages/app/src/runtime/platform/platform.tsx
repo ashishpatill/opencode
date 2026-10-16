@@ -113,6 +113,20 @@ type PlatformBase = {
   /** Record a fatal renderer error in platform logs (desktop only) */
   recordFatalRendererError?(error: FatalRendererErrorLog): Promise<void>
 
+  /** Whether a local speech engine and its weights are ready (desktop only) */
+  voiceStatus?(): Promise<{ ready: boolean; error?: string }>
+
+  /**
+   * Transcribes raw 16 kHz mono samples with the main process's local engine.
+   *
+   * Recognition lives in main because the renderer is a web bundle and a native
+   * inference module does not belong in one.
+   */
+  transcribeVoice?(input: {
+    samples: Float32Array
+    sampleRate: number
+    language?: string
+  }): Promise<{ text: string }>
   /** GUI extension bridge to the main-process extension host (desktop only). */
   extensions?: Bridge
 }

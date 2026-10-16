@@ -5,6 +5,7 @@ import { ExtensionRpcs } from "./ipc-rpc/extensions"
 import { FileRpcs } from "./ipc-rpc/files"
 import { MenuRpcs } from "./ipc-rpc/menu"
 import { StorageRpcs } from "./ipc-rpc/storage"
+import { VoiceRpcs } from "./ipc-rpc/voice"
 import { WindowRpcs } from "./ipc-rpc/window"
 
 export { AppRpcs } from "./ipc-rpc/app"
@@ -19,8 +20,18 @@ export { MenuRpcs } from "./ipc-rpc/menu"
 
 export { StorageRpcs } from "./ipc-rpc/storage"
 
+export { VoiceRpcs } from "./ipc-rpc/voice"
+
 export { WindowRpcs } from "./ipc-rpc/window"
 
-export const DesktopRpcs = AppRpcs.merge(StorageRpcs, FileRpcs, WindowRpcs, MenuRpcs, EventRpcs, ExtensionRpcs)
+export const DesktopRpcs = AppRpcs.merge(
+  StorageRpcs,
+  FileRpcs,
+  WindowRpcs,
+  MenuRpcs,
+  EventRpcs,
+  ExtensionRpcs,
+  VoiceRpcs,
+)
 
 export type DesktopRpcClient = RpcClient.FromGroup<typeof DesktopRpcs, RpcClientError.RpcClientError>

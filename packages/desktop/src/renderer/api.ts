@@ -72,6 +72,13 @@ export const api: ElectronAPI = {
       image ? { ...image, buffer: toArrayBuffer(image.buffer) } : null,
     ),
   writeClipboardText: (text) => invoke("FilesWriteClipboardText", { text }),
+  voiceStatus: () => invoke("VoiceStatus"),
+  transcribeVoice: (input) =>
+    invoke("VoiceTranscribe", {
+      samples: Array.from(input.samples),
+      sampleRate: input.sampleRate,
+      language: input.language,
+    }),
   getWindowFocused: () => invoke("WindowGetFocused"),
   getWindowFullscreen: () => invoke("WindowGetFullscreen"),
   onWindowFullscreenChanged: (cb) => listen("WindowFullscreenChanged", (event) => cb(event.fullscreen)),

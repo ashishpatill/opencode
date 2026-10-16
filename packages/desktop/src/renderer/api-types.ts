@@ -49,6 +49,12 @@ export type ElectronAPI = {
   revealPath(path: string): Promise<boolean>
   readClipboardImage(): Promise<ClipboardImage | null>
   writeClipboardText(text: string): Promise<void>
+  voiceStatus(): Promise<{ ready: boolean; error?: string }>
+  transcribeVoice(input: {
+    samples: Float32Array
+    sampleRate: number
+    language?: string
+  }): Promise<{ text: string }>
   getWindowFocused(): Promise<boolean>
   getWindowFullscreen(): Promise<boolean>
   onWindowFullscreenChanged(cb: (fullscreen: boolean) => void): () => void
