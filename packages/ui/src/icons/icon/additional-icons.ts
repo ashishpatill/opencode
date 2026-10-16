@@ -53,6 +53,8 @@ export const additionalIcons = {
   "window-cursor": `<path d="M17.5 10.4167V3.75H2.5V17.0833H10.4166M17.9166 13.5897L11.6666 11.6667L13.5897 17.9167L15.032 15.0321L17.9166 13.5897Z" stroke="currentColor" stroke-linecap="square"/><path d="M5.41675 6.125C5.71576 6.12518 5.95777 6.36795 5.95777 6.66699C5.95759 6.96589 5.71565 7.20783 5.41675 7.20801C5.11771 7.20801 4.87494 6.966 4.87476 6.66699C4.87476 6.36784 5.1176 6.125 5.41675 6.125ZM8.33276 6.125C8.63191 6.125 8.87476 6.36784 8.87476 6.66699C8.87458 6.966 8.63181 7.20801 8.33276 7.20801C8.03386 7.20783 7.79192 6.96589 7.79175 6.66699C7.79175 6.36795 8.03376 6.12518 8.33276 6.125ZM11.2498 6.125C11.5489 6.125 11.7917 6.36784 11.7917 6.66699C11.7916 6.966 11.5488 7.20801 11.2498 7.20801C10.9507 7.20801 10.7079 6.966 10.7078 6.66699C10.7078 6.36784 10.9506 6.125 11.2498 6.125Z" fill="currentColor" stroke="currentColor" stroke-width="0.25" stroke-linecap="square"/>`,
   task: `<path d="M9.99992 2.0835V17.9168M7.08325 3.75016H2.08325V16.2502H7.08325M12.9166 16.2502H17.9166V3.75016H12.9166" stroke="currentColor" stroke-linecap="square"/>`,
   subagent: `<path d="M4 4.5C4 4.22386 4.22386 4 4.5 4H11.5C11.7761 4 12 4.22386 12 4.5V11.5C12 11.7761 11.7761 12 11.5 12H4.5C4.22386 12 4 11.7761 4 11.5V4.5Z" fill="currentColor"/><path d="M14.5 1C14.7761 1 15 1.22386 15 1.5V14.5C15 14.7761 14.7761 15 14.5 15H1.5C1.22386 15 1 14.7761 1 14.5V1.5C1 1.22386 1.22386 1 1.5 1H14.5ZM2 14H14V2H2V14Z" fill="currentColor"/>`,
+  mic: `<path d="M10 2.5a2.5 2.5 0 0 1 2.5 2.5v5a2.5 2.5 0 0 1-5 0V5A2.5 2.5 0 0 1 10 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 9.5a5 5 0 0 1-10 0M10 14.5V17.5M6.5 17.5h7" stroke="currentColor" stroke-linecap="round"/>`,
+  "mic-active": `<path d="M10 2.5a2.5 2.5 0 0 1 2.5 2.5v5a2.5 2.5 0 0 1-5 0V5A2.5 2.5 0 0 1 10 2.5Z" fill="currentColor"/><path d="M15 9.5a5 5 0 0 1-10 0M10 14.5V17.5M6.5 17.5h7" stroke="currentColor" stroke-linecap="round"/>`,
   stop: `<rect x="5" y="5" width="10" height="10" fill="currentColor"/>`,
   status: `<path d="M2 10V18H18V10M2 10V2H18V10M2 10H18M5 6H9M5 14H9" stroke="currentColor"/>`,
   "status-active": `<path d="M18 2H2V10H18V2Z" fill="currentColor" fill-opacity="0.1"/>
@@ -120,7 +122,9 @@ export function additionalIconViewBox(name: keyof typeof additionalIcons) {
     name === "extensions" ||
     name === "sliders" ||
     name === "providers" ||
-    name === "models"
+    name === "models" ||
+    name === "mic" ||
+    name === "mic-active"
     ? "0 0 16 16"
     : "0 0 20 20"
 }

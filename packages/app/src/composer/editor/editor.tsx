@@ -89,6 +89,8 @@ export type ComposerEditorProps = {
   alternateKeybind?: string[]
   exitShellKeybind?: string[]
   suggestionBoundary?: () => HTMLElement | undefined
+  /** Dictation control. Rendered only in normal mode, before the send button. */
+  mic?: JSX.Element
 }
 
 export function ComposerEditor(props: ComposerEditorProps) {
@@ -371,6 +373,11 @@ export function ComposerEditor(props: ComposerEditorProps) {
             </div>
           </div>
           <div data-slot="composer-actions" class="flex shrink-0 items-center">
+            <Show when={state.mode === "normal"}>
+              <Show when={props.mic}>
+                <div class="me-1">{props.mic}</div>
+              </Show>
+            </Show>
             <Show when={state.mode === "normal"}>
               <ComposerEditorAlternateDelivery
                 controller={props.controller}
