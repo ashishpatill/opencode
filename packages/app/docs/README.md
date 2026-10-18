@@ -29,6 +29,9 @@ renderer/main boundary:
 - **Chunker** — splits at the 35 s *reference processor* window rather than the
   encoder's advertised capacity. Using the larger number silently dropped whole
   passages from long recordings in the reference implementation.
+- **Platform bridge** — the desktop `Platform` implementation spreads the three
+  voice methods in explicitly. They are optional on the interface, so a platform
+  that omits them still typechecks: it just loses the mic control, silently.
 - **VoiceTranscribe IPC** — raw samples cross the boundary rather than an
   encoded file. Recognition runs in the main process because the renderer is a
   web bundle and a native inference module does not belong in one.
@@ -41,8 +44,8 @@ renderer/main boundary:
 
 ## Provenance
 
-Generated with [Archify](https://github.com/tt-a1i/archify) 3.0.1 (MIT), pinned to
-this repository's revision `5206d99`.
+Generated with [Archify](https://github.com/tt-a1i/archify) 3.1.0 (MIT), pinned to
+this repository's revision `5be6b98`.
 `voice-dictation.source.json` is the typed input, so the diagram can be
 regenerated instead of hand-edited.
 
@@ -72,7 +75,7 @@ plateaus around 1.1 GB and returns to baseline, and `numThreads: 2` is the
 fastest setting on an 8-core machine (1 thread 575 ms, 2 threads 340 ms,
 4 threads 1575 ms).
 
-Two constraints are worth knowing before changing this code:
+Three constraints are worth knowing before changing this code:
 
 - The native binding **aborts the process** on input shorter than 80 samples,
   with a C++ exception JavaScript cannot catch. The engine refuses anything

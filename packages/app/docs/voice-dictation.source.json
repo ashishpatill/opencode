@@ -3,161 +3,36 @@
   "diagram_type": "architecture",
   "meta": {
     "title": "Voice Dictation in the OpenCode Desktop App",
-    "subtitle": "Composer mic \u2192 capture \u2192 main-process recognition \u2192 insert at caret. Local only, no provider key",
-    "output": ".archify/architecture-voice-dictation-20261017-015642/voice-dictation.html",
+    "subtitle": "Mic to caret: capture in the renderer, recognition in the main process, weights fetched on first use. Local only, no provider key",
+    "output": "packages/app/docs/voice-dictation.html",
     "quality_profile": "showcase",
     "locale": "en",
     "repository": {
-      "url": "https://github.com/anomalyco/opencode",
+      "url": "https://github.com/anomalyco/opencode.git",
       "provider": "github",
-      "revision": "5206d995499693a4f02a293d785ffa958772fc7e"
+      "revision": "5be6b980d166a81db9e2f6033b94cd0863cbc127"
     }
   },
   "components": [
     {
-      "id": "composer",
+      "id": "typed",
       "type": "frontend",
-      "label": "Composer Mic",
-      "sublabel": "start / stop control",
+      "label": "Typed Input",
+      "sublabel": "keyboard, same draft",
       "pos": [
         40,
-        300
+        100
       ],
       "size": [
-        140,
+        132,
         62
       ],
       "sources": [
         {
-          "path": "packages/app/src/composer/editor/editor.tsx",
-          "line": 93,
-          "label": "mic slot on the editor"
-        }
-      ]
-    },
-    {
-      "id": "button",
-      "type": "frontend",
-      "label": "Dictation Control",
-      "sublabel": "level bar, spinner",
-      "pos": [
-        250,
-        300
-      ],
-      "size": [
-        150,
-        62
-      ],
-      "sources": [
-        {
-          "path": "packages/app/src/voice/mic-button.tsx",
-          "label": "mic control component"
-        }
-      ]
-    },
-    {
-      "id": "state",
-      "type": "frontend",
-      "label": "Capture State",
-      "sublabel": "ordered, cancellable",
-      "pos": [
-        250,
-        165
-      ],
-      "size": [
-        150,
-        62
-      ],
-      "sources": [
-        {
-          "path": "packages/app/src/voice/controller.ts",
-          "line": 29,
-          "label": "DictationController"
-        }
-      ]
-    },
-    {
-      "id": "capture",
-      "type": "frontend",
-      "label": "Mic Capture",
-      "sublabel": "getUserMedia 16k mono",
-      "pos": [
-        480,
-        300
-      ],
-      "size": [
-        150,
-        62
-      ],
-      "sources": [
-        {
-          "path": "packages/app/src/voice/capture.ts",
-          "line": 38,
-          "label": "MicrophoneCapture"
-        }
-      ]
-    },
-    {
-      "id": "chunk",
-      "type": "backend",
-      "label": "Chunker",
-      "sublabel": "\u226435 s windows",
-      "pos": [
-        480,
-        165
-      ],
-      "size": [
-        150,
-        62
-      ],
-      "sources": [
-        {
-          "path": "packages/app/src/voice/chunk.ts",
-          "line": 20,
-          "label": "MAX_CHUNK_SECONDS"
-        }
-      ]
-    },
-    {
-      "id": "rpc",
-      "type": "messagebus",
-      "label": "VoiceTranscribe",
-      "sublabel": "raw samples over IPC",
-      "pos": [
-        760,
-        165
-      ],
-      "size": [
-        160,
-        62
-      ],
-      "sources": [
-        {
-          "path": "packages/desktop/src/shared/ipc-rpc/voice.ts",
-          "line": 18,
-          "label": "Transcribe RPC"
-        }
-      ]
-    },
-    {
-      "id": "engine",
-      "type": "backend",
-      "label": "Engine Port",
-      "sublabel": "no engine registered yet",
-      "pos": [
-        760,
-        300
-      ],
-      "size": [
-        160,
-        62
-      ],
-      "tag": "unavailable",
-      "sources": [
-        {
-          "path": "packages/desktop/src/main/voice/engine.ts",
-          "line": 20,
-          "label": "VoiceEngine port"
+          "path": "packages/app/src/composer/editor/interaction.ts",
+          "line": 88,
+          "end_line": 173,
+          "label": "typed and pasted text"
         }
       ]
     },
@@ -165,62 +40,300 @@
       "id": "insert",
       "type": "frontend",
       "label": "Composer.insert",
-      "sublabel": "insert at caret",
+      "sublabel": "at the caret",
       "pos": [
-        1020,
-        300
+        244,
+        100
       ],
       "size": [
-        150,
+        132,
         62
       ],
       "sources": [
+        {
+          "path": "packages/app/src/composer/editor/interaction.ts",
+          "line": 383,
+          "end_line": 385,
+          "label": "insert never overwrites"
+        },
         {
           "path": "packages/app/src/composer/editor/actions.ts",
           "line": 97,
-          "label": "shared insertText helper"
+          "label": "insert at the caret"
         }
       ]
     },
     {
-      "id": "extapi",
-      "type": "security",
-      "label": "Extension Composer",
-      "sublabel": "insertText()",
-      "pos": [
-        1020,
-        165
-      ],
-      "size": [
-        150,
-        62
-      ],
-      "sources": [
-        {
-          "path": "packages/gui-extensions/src/sdk/host-apis.ts",
-          "line": 504,
-          "label": "public extension surface"
-        }
-      ]
-    },
-    {
-      "id": "typed",
+      "id": "mic",
       "type": "frontend",
-      "label": "Typed Input",
-      "sublabel": "keyboard path",
+      "label": "Composer Mic",
+      "sublabel": "actions row",
       "pos": [
-        1300,
-        300
+        40,
+        260
       ],
       "size": [
-        140,
+        132,
         62
       ],
       "sources": [
         {
-          "path": "packages/app/src/composer/editor/editor.tsx",
-          "line": 380,
-          "label": "normal-mode actions row"
+          "path": "packages/app/src/composer/composer.tsx",
+          "line": 41,
+          "label": "mic slot on the editor"
+        },
+        {
+          "path": "packages/app/src/voice/mic-button.tsx",
+          "line": 27,
+          "label": "the control"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "type": "frontend",
+      "label": "Dictation Session",
+      "sublabel": "phases, ordering",
+      "pos": [
+        244,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/voice/session.ts",
+          "line": 112,
+          "end_line": 165,
+          "label": "status, download, start"
+        },
+        {
+          "path": "packages/app/src/voice/controller.ts",
+          "line": 29,
+          "end_line": 72,
+          "label": "ordered, cancellable"
+        }
+      ]
+    },
+    {
+      "id": "capture",
+      "type": "frontend",
+      "label": "Mic Capture",
+      "sublabel": "16 kHz mono",
+      "pos": [
+        448,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/voice/capture.ts",
+          "line": 40,
+          "end_line": 86,
+          "label": "getUserMedia"
+        },
+        {
+          "path": "packages/app/src/voice/capture.ts",
+          "line": 17,
+          "label": "short tap"
+        }
+      ]
+    },
+    {
+      "id": "chunk",
+      "type": "backend",
+      "label": "Chunker",
+      "sublabel": "35 s windows",
+      "pos": [
+        652,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/app/src/voice/chunk.ts",
+          "line": 17,
+          "end_line": 41,
+          "label": "window, not capacity"
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "type": "frontend",
+      "label": "Platform Bridge",
+      "sublabel": "Platform methods",
+      "pos": [
+        856,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/desktop/src/renderer/platform/voice.ts",
+          "line": 26,
+          "end_line": 32,
+          "label": "three methods"
+        },
+        {
+          "path": "packages/desktop/src/renderer/platform/index.ts",
+          "line": 32,
+          "label": "spread into Platform"
+        }
+      ]
+    },
+    {
+      "id": "rpc",
+      "type": "messagebus",
+      "label": "Voice RPC",
+      "sublabel": "status · prepare",
+      "pos": [
+        1084,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/desktop/src/shared/ipc-rpc/voice.ts",
+          "line": 44,
+          "end_line": 64,
+          "label": "three calls"
+        },
+        {
+          "path": "packages/desktop/src/renderer/api.ts",
+          "line": 75,
+          "end_line": 78,
+          "label": "renderer side"
+        }
+      ]
+    },
+    {
+      "id": "port",
+      "type": "backend",
+      "label": "Engine Port",
+      "sublabel": "phase machine",
+      "pos": [
+        1288,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/desktop/src/main/voice/engine.ts",
+          "line": 63,
+          "end_line": 89,
+          "label": "status before warm-up"
+        },
+        {
+          "path": "packages/desktop/src/main/ipc-handlers/voice.ts",
+          "line": 8,
+          "label": "engine registered"
+        }
+      ]
+    },
+    {
+      "id": "parakeet",
+      "type": "backend",
+      "label": "Parakeet TDT",
+      "sublabel": "int8 · sherpa-onnx",
+      "tag": "0.6B v2",
+      "pos": [
+        1492,
+        260
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/desktop/src/main/voice/parakeet.ts",
+          "line": 65,
+          "end_line": 139,
+          "label": "recognize and prepare"
+        },
+        {
+          "path": "packages/desktop/src/main/voice/parakeet.ts",
+          "line": 54,
+          "label": "crash guard"
+        }
+      ]
+    },
+    {
+      "id": "weights",
+      "type": "database",
+      "label": "Weight Store",
+      "sublabel": "four files",
+      "tag": "622 MB",
+      "pos": [
+        1492,
+        150
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/desktop/src/main/voice/model.ts",
+          "line": 41,
+          "end_line": 42,
+          "label": "under userData"
+        },
+        {
+          "path": "packages/desktop/src/main/voice/model.ts",
+          "line": 65,
+          "end_line": 73,
+          "label": "sizes, never vendored"
+        },
+        {
+          "path": "packages/desktop/src/main/voice/model.ts",
+          "line": 184,
+          "end_line": 190,
+          "label": "present, not fetched"
+        }
+      ]
+    },
+    {
+      "id": "host",
+      "type": "external",
+      "label": "Model Host",
+      "sublabel": "huggingface.co",
+      "pos": [
+        1492,
+        30
+      ],
+      "size": [
+        132,
+        62
+      ],
+      "sources": [
+        {
+          "path": "packages/desktop/src/main/voice/model.ts",
+          "line": 54,
+          "label": "the one repository"
+        },
+        {
+          "path": "packages/desktop/src/main/voice/model.ts",
+          "line": 108,
+          "label": "fetched on demand"
         }
       ]
     }
@@ -228,124 +341,154 @@
   "boundaries": [
     {
       "kind": "security-group",
-      "label": "Renderer (web bundle \u2014 no native module)",
+      "label": "Renderer — sandboxed web bundle, no native module",
       "wraps": [
-        "composer",
-        "button",
-        "state",
+        "mic",
+        "session",
         "capture",
         "chunk",
+        "bridge",
         "insert",
-        "extapi",
         "typed"
       ]
     },
     {
       "kind": "region",
-      "label": "Main process (Node \u2014 inference lives here)",
+      "label": "Main process — Node, where inference runs",
       "wraps": [
-        "engine"
+        "rpc",
+        "port",
+        "parakeet"
       ]
     }
   ],
   "connections": [
     {
-      "id": "composer-button",
-      "from": "composer",
-      "to": "button",
-      "label": "renders",
-      "variant": "emphasis"
+      "from": "mic",
+      "to": "session",
+      "label": "click",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
     },
     {
-      "id": "button-state",
-      "from": "button",
-      "to": "state",
-      "label": "phase",
-      "variant": "dashed",
-      "fromSide": "top",
-      "toSide": "bottom"
+      "from": "session",
+      "to": "capture",
+      "label": "opens",
+      "fromSide": "right",
+      "toSide": "left"
     },
     {
-      "id": "capture-chunk",
       "from": "capture",
       "to": "chunk",
-      "label": "PCM frames",
+      "label": "PCM",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "from": "chunk",
+      "to": "bridge",
+      "label": "samples",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "from": "bridge",
+      "to": "rpc",
+      "label": "invoke",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "from": "rpc",
+      "to": "port",
+      "label": "handle",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "from": "port",
+      "to": "parakeet",
+      "label": "decode",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "from": "session",
+      "to": "insert",
+      "label": "insert",
       "fromSide": "top",
       "toSide": "bottom"
     },
     {
-      "id": "chunk-rpc",
-      "from": "chunk",
-      "to": "rpc",
-      "label": "windowed audio"
-    },
-    {
-      "id": "rpc-engine",
-      "from": "rpc",
-      "to": "engine",
-      "label": "recognize",
-      "variant": "security",
-      "fromSide": "bottom",
-      "toSide": "top",
-      "labelDy": 34
-    },
-    {
-      "id": "engine-insert",
-      "from": "engine",
+      "from": "typed",
       "to": "insert",
-      "label": "transcript"
+      "label": "shares",
+      "fromSide": "right",
+      "toSide": "left"
     },
     {
-      "id": "insert-typed",
-      "from": "insert",
-      "to": "typed",
-      "label": "one text store"
+      "from": "parakeet",
+      "to": "weights",
+      "label": "verify",
+      "fromSide": "top",
+      "toSide": "bottom"
     },
     {
-      "id": "ext-insert",
-      "from": "extapi",
-      "to": "insert",
-      "label": "insertText()",
+      "from": "host",
+      "to": "weights",
+      "label": "fetch",
       "variant": "dashed",
       "fromSide": "bottom",
       "toSide": "top"
+    },
+    {
+      "from": "parakeet",
+      "to": "session",
+      "label": "transcript",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "via": [
+        [
+          1558,
+          420
+        ],
+        [
+          310,
+          420
+        ]
+      ]
     }
   ],
   "cards": [
     {
       "dot": "emerald",
-      "title": "Built and tested",
+      "title": "First run fetches weights, a status read never does",
       "items": [
-        "35 unit tests over state, chunking, capture and view state",
-        "Capture \u2192 transcribe \u2192 insert is wired end to end",
-        "No engine registered, so the mic reports unavailable and stays disabled"
+        "Weights are 622 MB, CC-BY-4.0, and land in the app's own userData directory: four files whose sizes are checked on every read, never vendored into the repository.",
+        "voiceStatus answers from disk before asking the engine to warm up, so mounting a composer cannot start a 622 MB download (engine.ts, model.ts:184).",
+        "A fresh install enables the mic and reports needs-download; the first click fetches with progress shown, and the click after it records (session.ts:146).",
+        "prepare is its own call, so an interrupted fetch leaves the next click free to retry rather than stranding the engine."
       ]
     },
     {
       "dot": "cyan",
       "title": "Interruption rules",
       "items": [
-        "A tap under 300 ms is discarded, never transcribed",
-        "A new utterance never cancels accepted older work",
-        "Late results are fenced off before reaching the composer"
+        "A tap under 300 ms is discarded rather than transcribed, and capture keeps a pre-roll so the first syllable is not clipped (capture.ts:15).",
+        "Accepted work is never cancelled by a later utterance and output keeps submission order; a late result for a cancelled or superseded capture cannot reach the composer (controller.ts:29).",
+        "Decodes are serialized behind one queue: overlapping calls into a single ONNX session are unsafe.",
+        "Recording is cut into 35 s windows before inference, which is a reference-processor window rather than an encoder limit (chunk.ts:20)."
       ]
     },
     {
       "dot": "amber",
-      "title": "Latency and memory",
+      "title": "Measured on this machine, not assumed",
       "items": [
-        "Chunked at the 35 s processor window, not the encoder limit",
-        "Scratch released after every run, including failures",
-        "Weights stay resident; only per-input buffers rotate"
-      ]
-    },
-    {
-      "dot": "rose",
-      "title": "Boundaries",
-      "items": [
-        "Audio never leaves the device; no provider key required",
-        "Inference in main, because a native module can't ship in the renderer",
-        "insertText() is the one new public extension surface"
+        "A 7.4 s clip decodes in about 350 ms with punctuation and casing restored; two threads beat both one and four, and memory plateaus after warm-up.",
+        "The short-audio guard sits at 400 samples, five times the measured cliff below which the native addon aborts the process instead of throwing.",
+        "Both guards fire in JavaScript before the addon sees a buffer or a path, because neither failure is catchable."
       ]
     }
   ]
