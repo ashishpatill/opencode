@@ -140,7 +140,7 @@ function harness(
 
   const errors: string[] = []
 
-  const status = options.status ?? { phase: "ready" as const }
+  let status = options.status ?? { phase: "ready" as const }
 
   const session = new VoiceDictationSession(
     {
@@ -158,6 +158,10 @@ function harness(
     session,
     inserted,
     errors,
+    /** Lets a test move the engine on, the way a poll would see it change. */
+    setStatus: (next: PlatformVoiceStatus) => {
+      status = next
+    },
   }
 }
 
@@ -175,6 +179,134 @@ describe("VoiceDictationSession availability", () => {
     const h = harness({ status: { phase: "needs-download" } })
     await h.session.refresh()
     expect(h.session.state.enabled).toBe(true)
+  })
+
+  test("clicking while the weights are missing fetches them instead of recording", async () => {
+    // The download is what this click is for, and it is not something recording
+    // can wait on: the control reports the fetch and the click after it dictates.
+    // Without this the first click would capture audio nothing could transcribe,
+    // and nothing would ever start the fetch.
+    let prepared = 0
+
+    const h = harness({
+      status: { phase: "needs-download" },
+      prepare: async () => {
+        prepared++
+
+        return { phase: "ready" as const }
+      },
+    })
+
+    await h.session.refresh()
+
+    expect(await h.session.start()).toBe(false)
+    expect(prepared).toBe(1)
+    expect(h.session.state.recording).toBe(false)
+    expect(h.session.state.downloading).toBeUndefined()
+    expect(h.session.state.enabled).toBe(true)
+  })
+
+  test("a first-run download shows progress and refuses to record until it lands", async () => {
+    let release: (() => void) | undefined
+
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+
+    const h = harness({
+      status: { phase: "needs-download" },
+      prepare: async () => {
+        await gate
+
+        return { phase: "ready" as const }
+      },
+    })
+
+    await h.session.refresh()
+
+    const starting = h.session.start()
+
+    // The total is not known until the first byte count arrives, which is why the
+    // placeholder reports an explicit zero rather than guessing at 622 MB.
+    expect(h.session.state.downloading).toEqual({ bytes: 0, total: 0 })
+    expect(h.session.state.recording).toBe(false)
+
+    release?.()
+    await starting
+
+    expect(h.session.state.downloading).toBeUndefined()
+    expect(h.session.state.enabled).toBe(true)
+  })
+
+  test("a status read that beats the first byte does not hide the download", async () => {
+    // The poll runs a second after the click; the first byte arrives when the
+    // host answers. A read that still says "needs-download" must not turn the
+    // control back into a plain mic — that also stops the poll, which is what
+    // left a 622 MB fetch invisible from start to finish.
+    let release: (() => void) | undefined
+
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+
+    const h = harness({
+      status: { phase: "needs-download" },
+      prepare: async () => {
+        await gate
+
+        return { phase: "ready" as const }
+      },
+    })
+
+    await h.session.refresh()
+
+    const starting = h.session.start()
+
+    expect(h.session.state.downloading).toEqual({ bytes: 0, total: 0 })
+    expect(h.session.state.enabled).toBe(false)
+
+    // The race: main has not seen a byte yet, so status still reports the need.
+    await h.session.refresh()
+
+    expect(h.session.state.downloading).toEqual({ bytes: 0, total: 0 })
+    expect(h.session.state.enabled).toBe(false)
+
+    release?.()
+    await starting
+
+    expect(h.session.state.downloading).toBeUndefined()
+    expect(h.session.state.enabled).toBe(true)
+  })
+
+  test("progress reported by the main process replaces the placeholder", async () => {
+    let release: (() => void) | undefined
+
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+
+    const h = harness({
+      status: { phase: "needs-download" },
+      prepare: async () => {
+        await gate
+
+        return { phase: "ready" as const }
+      },
+    })
+
+    await h.session.refresh()
+
+    const starting = h.session.start()
+
+    h.setStatus({ phase: "downloading", progress: { bytes: 100, total: 200 } })
+    await h.session.refresh()
+
+    expect(h.session.state.downloading).toEqual({ bytes: 100, total: 200 })
+    // Still no click target: the fetch is not something a click can change.
+    expect(h.session.state.enabled).toBe(false)
+
+    release?.()
+    await starting
   })
 
   test("a downloading engine disables the control and shows progress", async () => {

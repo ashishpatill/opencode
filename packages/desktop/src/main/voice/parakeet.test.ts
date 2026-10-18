@@ -104,10 +104,24 @@ async function truncateTo(dir: string, name: string, bytes: number) {
   await fs.truncate(path.join(dir, name), bytes)
 }
 
+/**
+ * A scratch directory that looks like a completed weight download.
+ *
+ * The engine refuses to hand an incomplete directory to the addon, so tests
+ * about the state machine above that have to present one. `scratchDir()` on its
+ * own is deliberately left empty for the tests about the refusal itself.
+ */
+async function weightsDir() {
+  const dir = await scratchDir()
+  await seed(dir)
+
+  return dir
+}
+
 describe("createParakeetEngine", () => {
   test("transcribes through the stub recognizer", async () => {
     const stub = stubSherpa("transcribed text")
-    const engine = createParakeetEngine({ directory: await scratchDir(), load: () => stub.module })
+    const engine = createParakeetEngine({ directory: await weightsDir(), load: () => stub.module })
 
     const text = await engine.transcribe({ samples: new Float32Array(16000), sampleRate: 16000 })
     expect(text).toBe("transcribed text")
@@ -118,7 +132,7 @@ describe("createParakeetEngine", () => {
     // A wrong rate would still decode and return plausible nonsense, which is
     // worse for the user than an explicit failure.
     const stub = stubSherpa()
-    const engine = createParakeetEngine({ directory: await scratchDir(), load: () => stub.module })
+    const engine = createParakeetEngine({ directory: await weightsDir(), load: () => stub.module })
 
     await expect(engine.transcribe({ samples: new Float32Array(48000), sampleRate: 48000 })).rejects.toThrow(
       /16000 Hz/,
@@ -128,7 +142,7 @@ describe("createParakeetEngine", () => {
 
   test("concurrent decodes are serialized rather than overlapping", async () => {
     const stub = stubSherpa()
-    const engine = createParakeetEngine({ directory: await scratchDir(), load: () => stub.module })
+    const engine = createParakeetEngine({ directory: await weightsDir(), load: () => stub.module })
 
     await Promise.all([
       engine.transcribe({ samples: new Float32Array(16000), sampleRate: 16000 }),
@@ -142,7 +156,7 @@ describe("createParakeetEngine", () => {
   })
 
   test("one failed decode does not poison the queue", async () => {
-    const dir = await scratchDir()
+    const dir = await weightsDir()
     let shouldFail = true
 
     const engine = createParakeetEngine({
@@ -175,7 +189,7 @@ describe("createParakeetEngine", () => {
     let built = 0
 
     const engine = createParakeetEngine({
-      directory: await scratchDir(),
+      directory: await weightsDir(),
       load: () => ({
         OfflineRecognizer: class implements SherpaOfflineRecognizer {
           constructor() {
@@ -206,12 +220,24 @@ describe("createParakeetEngine", () => {
     expect(await engine.hasWeights?.()).toBe(false)
   })
 
+  test("an unwarmed engine refuses missing weights before the addon sees a path", async () => {
+    // Loading a graph that is not there aborts the process instead of throwing,
+    // so `ready()` has to fail as an ordinary error first. It must also not fetch
+    // anything on the way: acquiring the weights belongs to `prepareWeights`.
+    const engine = createParakeetEngine({ directory: await scratchDir(), load: () => stubSherpa().module })
+
+    const warm = await engine.ready()
+
+    expect(warm.ready).toBe(false)
+    expect(warm.error).toContain("not been downloaded")
+  })
+
   test("audio below the crash threshold never reaches the native binding", async () => {
     // The binding aborts the process on a too-short buffer with an uncatchable
     // C++ exception, so the guard has to fire before any native call. A stub
     // that records decodes is the only way to prove it here.
     const stub = stubSherpa("should never appear")
-    const engine = createParakeetEngine({ directory: await scratchDir(), load: () => stub.module })
+    const engine = createParakeetEngine({ directory: await weightsDir(), load: () => stub.module })
 
     for (const length of [0, 1, 160, MIN_SAMPLES - 1]) {
       expect(await engine.transcribe({ samples: new Float32Array(length), sampleRate: 16000 })).toBe("")
@@ -223,7 +249,7 @@ describe("createParakeetEngine", () => {
   test("audio at the crash threshold is decoded normally", async () => {
     // The guard must be a floor, not an off-by-one that refuses real speech.
     const stub = stubSherpa("long enough")
-    const engine = createParakeetEngine({ directory: await scratchDir(), load: () => stub.module })
+    const engine = createParakeetEngine({ directory: await weightsDir(), load: () => stub.module })
 
     expect(await engine.transcribe({ samples: new Float32Array(MIN_SAMPLES), sampleRate: 16000 })).toBe("long enough")
     expect(stub.calls.decode).toBe(1)
@@ -246,6 +272,26 @@ describe("voice status phases", () => {
       transcribe: async () => "",
     })
     expect((await voiceStatus()).phase).toBe("needs-download")
+  })
+
+  test("reporting status never loads the engine while the weights are missing", async () => {
+    // Loading is what fetches 622 MB, so asking whether dictation can run must
+    // not be the thing that starts the download. It also keeps `needs-download`
+    // reachable: an engine asked to warm up first would never report it.
+    let loads = 0
+    registerVoiceEngine({
+      id: "stub",
+      ready: async () => {
+        loads++
+
+        return { ready: true }
+      },
+      hasWeights: async () => false,
+      transcribe: async () => "",
+    })
+
+    expect((await voiceStatus()).phase).toBe("needs-download")
+    expect(loads).toBe(0)
   })
 
   test("a loaded engine is ready", async () => {

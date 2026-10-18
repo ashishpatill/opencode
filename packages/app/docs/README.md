@@ -32,9 +32,10 @@ renderer/main boundary:
 - **VoiceTranscribe IPC** — raw samples cross the boundary rather than an
   encoded file. Recognition runs in the main process because the renderer is a
   web bundle and a native inference module does not belong in one.
-- **Engine port** — a seam with no engine registered yet. Status therefore
-  reports unavailable and the mic stays disabled, which is the honest state
-  until a model is chosen.
+- **Engine** — Parakeet TDT 0.6B v2 (int8) behind `sherpa-onnx`, registered
+  through the engine port. Weights are 622 MB, CC-BY-4.0 and fetched on first
+  use rather than vendored, so `needs-download` is a distinct phase from
+  `unavailable`: the mic stays enabled and the first click starts the fetch.
 - **Composer.insert** — inserts at the caret, so a half-typed prompt is never
   overwritten. Dictated and typed text share one insert path.
 
@@ -60,9 +61,39 @@ real-browser pass. A non-zero exit is a failure, not a warning.
 
 ## Status
 
-Capture, chunking, the state machine, the composer control, the IPC boundary
-and the insert path are implemented and covered by unit tests. Recognition
-itself is not: `VoiceEngine` in `src/main/voice/engine.ts` has no registered
-implementation, so the mic control reports unavailable and disables itself
-until a model is chosen. Parakeet (0.6B, best measured accuracy per byte) and
-Whisper (MIT) both fit behind the port.
+Implemented and covered by tests: capture, chunking, the state machine, the
+composer control, the IPC boundary, the insert path, and recognition itself —
+Parakeet TDT 0.6B v2 (int8) behind `sherpa-onnx`, registered in
+`src/main/voice/`.
+
+Measured against real weights, not asserted: a 7.4 s clip transcribes at
+RTF ~0.047 with correct punctuation and casing, silence returns empty text, RSS
+plateaus around 1.1 GB and returns to baseline, and `numThreads: 2` is the
+fastest setting on an 8-core machine (1 thread 575 ms, 2 threads 340 ms,
+4 threads 1575 ms).
+
+Two constraints are worth knowing before changing this code:
+
+- The native binding **aborts the process** on input shorter than 80 samples,
+  with a C++ exception JavaScript cannot catch. The engine refuses anything
+  under 400 at `MIN_SAMPLES`, and `parakeet.cliff.mjs` re-locates the real cliff
+  by bisection in throwaway processes so a model revision that moves it fails
+  loudly.
+- Overlapping decodes into one ONNX session are unsafe, so the engine
+  serializes them behind a single queue.
+- A status read never fetches. `prepareWeights` owns the download and
+  `voiceStatus` answers from disk, because a composer mounting is not the user
+  asking for 622 MB — and `needs-download` is only reachable if the status check
+  runs before the engine is asked to warm up.
+
+Weights are CC-BY-4.0 and fetched, never vendored, so attribution travels with
+the download (`MODEL_ATTRIBUTION`) rather than the source tree.
+
+Observed in a running dev app, not only in tests: a fresh install renders the
+mic enabled with nothing downloaded; one click starts the fetch, showing
+"Downloading speech model" with a spinner that becomes a rising percentage; the
+control is disabled throughout; and when the download lands the mic returns to
+an enabled "Dictate".
+
+Not verified: real speech through the capture path. That needs a human at a
+microphone, and no automation here can grant microphone access.

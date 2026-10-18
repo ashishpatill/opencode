@@ -25,7 +25,7 @@ import { createRequire } from "node:module"
 
 import type { VoiceEngine } from "./engine"
 import type { ModelProgress } from "./model"
-import { MODEL_BYTES, MODEL_LABEL, ensureModel, hasModel } from "./model"
+import { MODEL_BYTES, MODEL_LABEL, ensureModel, hasModel, modelDirectory } from "./model"
 import type { SherpaModule, SherpaOfflineRecognizer } from "./sherpa"
 import { loadSherpa } from "./sherpa"
 
@@ -65,24 +65,19 @@ export type ParakeetOptions = {
 export function createParakeetEngine(options: ParakeetOptions = {}): VoiceEngine {
   let loading: Promise<SherpaOfflineRecognizer> | undefined
   let queue: Promise<unknown> = Promise.resolve()
-  /** Live download subscribers; `prepareWeights` attaches for the duration. */
-  const listeners = new Set<(progress: ModelProgress) => void>()
-
-  const report = (progress: ModelProgress) => {
-    options.onProgress?.(progress)
-
-    for (const listener of listeners) listener(progress)
-  }
 
   const recognizer = () => {
     // One load for all callers: two dictations during a first-run download must
     // not race to construct two sessions over the same weights.
     loading ??= (async () => {
-      const dir =
-        options.directory ??
-        (await ensureModel({
-          onProgress: (progress) => report({ ...progress, total: progress.total || MODEL_BYTES }),
-        }))
+      const dir = options.directory ?? modelDirectory()
+
+      // Weights are fetched deliberately, by `prepareWeights`, and never as a
+      // side effect of asking whether the engine is ready: a status read must
+      // not cost 622 MB. Refusing before the native constructor also keeps
+      // missing paths away from the addon, which aborts the process rather than
+      // throwing when it cannot load the graph.
+      if (!(await hasModel(dir))) throw new Error("Speech model weights have not been downloaded yet")
 
       const sherpa = (options.load ?? (() => loadSherpa(nativeRequire)))()
 
@@ -128,14 +123,17 @@ export function createParakeetEngine(options: ParakeetOptions = {}): VoiceEngine
     },
 
     async prepareWeights(onProgress) {
+      // A pre-seeded directory is already complete; nothing to fetch.
       if (options.directory) return
-      listeners.add(onProgress)
 
-      try {
-        await recognizer()
-      } finally {
-        listeners.delete(onProgress)
-      }
+      await ensureModel({
+        onProgress: (progress: ModelProgress) => {
+          const value = { ...progress, total: progress.total || MODEL_BYTES }
+
+          options.onProgress?.(value)
+          onProgress(value)
+        },
+      })
     },
 
     async transcribe(input) {

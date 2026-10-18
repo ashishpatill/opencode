@@ -66,12 +66,15 @@ export async function voiceStatus(): Promise<VoiceStatus> {
   if (downloading) return { phase: "downloading", progress: downloading }
 
   try {
+    // Asked before `ready()`, which loads the native session. A status read has
+    // to stay cheap: reporting "the weights are missing" must not itself be the
+    // thing that fetches 622 MB, and an engine that cannot load yet should not be
+    // asked to try. This is also what makes `needs-download` reachable at all.
+    if (engine.hasWeights && !(await engine.hasWeights())) return { phase: "needs-download" }
+
     const warm = await engine.ready()
 
     if (warm.ready) return { phase: "ready" }
-    // Weights absent but fetchable: enable the control and report the need.
-
-    if (engine.hasWeights && !(await engine.hasWeights())) return { phase: "needs-download" }
 
     return { phase: "error", error: warm.error }
   } catch (cause) {
@@ -89,6 +92,12 @@ export async function prepareVoiceEngine(): Promise<VoiceStatus> {
   if (!active) return { phase: "unavailable", error: "No local speech engine is registered" }
 
   if (!active.prepareWeights) return voiceStatus()
+
+  // Set before the first byte arrives, so a status read from any window reports
+  // the fetch rather than "needs-download" while it is already under way. Real
+  // progress replaces this as soon as the host starts answering; until then the
+  // total is honestly reported as unknown.
+  downloading ??= { bytes: 0, total: 0 }
 
   // One download for all callers: 622 MB fetched once even if the user clicks
   // the mic several times while it is arriving.

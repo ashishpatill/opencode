@@ -61,12 +61,19 @@ export type SessionState = {
   readonly unavailable: string | undefined
 }
 
+/**
+ * Before the first status read nothing is claimed about the engine.
+ *
+ * "Not available" used to be spelled here as well as for a genuinely
+ * unsupported platform, which meant the control said the same wrong thing while
+ * it was still checking, and while a first-run download was under way.
+ */
 const INITIAL: SessionState = {
   enabled: false,
   recording: false,
   busy: false,
   downloading: undefined,
-  unavailable: "Dictation is not available on this platform",
+  unavailable: undefined,
 }
 
 /**
@@ -82,6 +89,10 @@ export class VoiceDictationSession {
   #capture: MicrophoneCapture
   #state: SessionState = INITIAL
   #onChange: (state: SessionState) => void
+  /** Last status read, so a click can tell "not downloaded" from "not ready". */
+  #status: PlatformVoiceStatus | undefined
+  /** True while a `prepare` this session started is still in flight. */
+  #pending = false
   /** Identity of the capture whose audio is currently in flight. */
   #active: number | undefined
   /** Serializes clicks so a double-tap cannot start two captures. */
@@ -99,13 +110,58 @@ export class VoiceDictationSession {
 
   /** Refreshes availability from the platform. Cheap enough to call on mount. */
   async refresh(): Promise<void> {
-    const status = await this.#deps.status?.().catch(() => undefined)
+    this.#apply(this.#deps.status ? await this.#deps.status().catch(() => undefined) : undefined)
+  }
+
+  /**
+   * Applies a status reading to the visible state.
+   *
+   * One place decides what a phase means for the control, so the mount-time read
+   * and the end of a download cannot disagree about it.
+   */
+  #apply(status: PlatformVoiceStatus | undefined) {
+    this.#status = status
+
+    const reported = status?.phase === "downloading" ? status.progress : undefined
 
     this.#publish({
-      enabled: canDictate(status) && !!this.#deps.insert,
+      enabled: !this.#pending && canDictate(status) && !!this.#deps.insert,
       unavailable: describeUnavailable(status, this.#deps),
-      downloading: status?.phase === "downloading" ? status.progress : undefined,
+      // Held for as long as this session's own fetch is in flight, including
+      // through a status read that raced ahead of the first byte. Dropping it
+      // there would also stop the composer's poll, which is what left the control
+      // reading "Dictate" for the whole of a 622 MB download.
+      downloading: this.#pending ? (reported ?? this.#state.downloading ?? { bytes: 0, total: 0 }) : reported,
     })
+  }
+
+  /**
+   * Fetches the weights, reporting progress, and leaves recording to the next click.
+   *
+   * A download is not something recording can wait on: 622 MB is minutes, and
+   * holding the microphone open for it would be worse than doing nothing. So the
+   * click that asks for dictation on a fresh install buys the model, the control
+   * shows the fetch, and the click after that records.
+   */
+  async #download(): Promise<void> {
+    if (!this.#deps.prepare) return
+
+    this.#pending = true
+    this.#publish({ downloading: { bytes: 0, total: 0 }, enabled: false })
+
+    let status: PlatformVoiceStatus | undefined
+
+    try {
+      status = await this.#deps.prepare()
+    } catch {
+      // The main process reports a failed fetch as an error phase, so this is
+      // only for a transport that broke outright.
+      status = undefined
+    } finally {
+      this.#pending = false
+    }
+
+    this.#apply(status)
   }
 
   /**
@@ -129,6 +185,15 @@ export class VoiceDictationSession {
 
     if (this.#deps.status === undefined || this.#deps.insert === undefined) {
       this.#publish({ unavailable: "Dictation is not available on this platform" })
+
+      return false
+    }
+
+    // Weights are not on disk yet, so this click is the request to fetch them.
+    // It returns without recording: the control shows the download, and the click
+    // after it completes is the one that dictates.
+    if (this.#status?.phase === "needs-download") {
+      await this.#download()
 
       return false
     }
@@ -285,8 +350,9 @@ function describeUnavailable(status: PlatformVoiceStatus | undefined, deps: Voic
 
   if (status.phase === "error") return status.error ?? "Dictation failed to start"
 
-  if (status.phase === "downloading") return "Downloading the speech model"
-
+  // `downloading` is deliberately not listed: the fetch is progress, not a
+  // refusal, and the control's own label already says so. Setting `unavailable`
+  // here would also put a status message where the UI expects a reason.
   return undefined
 }
 

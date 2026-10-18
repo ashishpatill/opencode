@@ -35,12 +35,14 @@ export function MicButton(props: MicButtonProps) {
 
   // One timer for the whole control, running only while something animates, so
   // an idle composer costs nothing. Driven by an effect rather than the click
-  // handler so the timer is right when a dictation starts any other way.
+  // handler so the timer is right when a dictation starts any other way. A
+  // download counts: until its first byte count arrives the glyph is a spinner
+  // rather than a percentage, and a still spinner would read as a frozen control.
   createEffect(() => {
-    const busy = props.state().busy
+    const animated = props.state().busy || props.state().downloading !== undefined
 
-    if (busy && !timer) timer = setInterval(() => setSpin((value) => (value + 1) % FRAMES.length), 120)
-    else if (!busy && timer) stopTimer()
+    if (animated && !timer) timer = setInterval(() => setSpin((value) => (value + 1) % FRAMES.length), 120)
+    else if (!animated && timer) stopTimer()
   })
 
   onCleanup(stopTimer)
@@ -79,7 +81,15 @@ export function MicButton(props: MicButtonProps) {
             <span class="text-xs leading-none">{FRAMES[spin()]}</span>
           </Match>
           <Match when={view().icon === "download"}>
-            <span class="text-[10px] tabular-nums leading-none">{downloadPercent(props.state().downloading)}%</span>
+            <Switch fallback={<span class="text-xs leading-none">{FRAMES[spin()]}</span>}>
+              {/* Before the first byte count the total is unknown, and a
+                  percentage of nothing would read as a permanently stuck 0%. */}
+              <Match when={downloadPercent(props.state().downloading) !== undefined}>
+                <span class="text-[10px] tabular-nums leading-none">
+                  {downloadPercent(props.state().downloading)}%
+                </span>
+              </Match>
+            </Switch>
           </Match>
           <Match when={true}>
             <Icon name={view().icon} />

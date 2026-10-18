@@ -12,12 +12,14 @@ import { VoiceDictationSession } from "@/voice/session"
  * platform has no local recognition, rather than a permanently disabled button
  * that invites the question "why is this here".
  */
+// Before the first status read, nothing is claimed: `session.refresh()` runs as
+// soon as this mounts, and the session's own state says the rest.
 const INITIAL: SessionState = {
   enabled: false,
   recording: false,
   busy: false,
   downloading: undefined,
-  unavailable: "Dictation is not available on this platform",
+  unavailable: undefined,
 }
 
 /** How often status is re-read while a first-run download is in flight. */
