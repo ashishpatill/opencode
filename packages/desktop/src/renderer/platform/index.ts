@@ -8,6 +8,7 @@ import { createDesktopFiles } from "./files"
 import { createDesktopMenuAction } from "./menu"
 import { createDesktopNotify } from "./notifications"
 import { createDesktopStorage } from "./storage"
+import { createDesktopVoice } from "./voice"
 
 export type DesktopWindowState = {
   id: string
@@ -24,6 +25,11 @@ export function createDesktopPlatform(api: ElectronAPI, windowState: DesktopWind
     windowID: windowState.id,
     ...createDesktopFiles(api, os),
     ...createDesktopStorage(api),
+    // Local dictation runs in the main process. These are the three methods the
+    // renderer needs, and they must be spread here: they are optional on
+    // `Platform`, so a platform that omits them does not fail typecheck — it
+    // loses the composer's mic control, silently.
+    ...createDesktopVoice(api),
     exportDebugLogs: () => api.exportDebugLogs(),
     setForceFocus: (enabled) => api.setForceFocus(enabled),
     recordFatalRendererError: (error) => api.recordFatalRendererError(error),

@@ -112,12 +112,26 @@ async function available() {
 
 const skip = !(await available())
 
-/** Hardlinks, so the fixture costs no extra disk. */
-async function linkFixture(dir: string) {
+/**
+ * Builds a scratch weight directory for the tests that need to move or remove a
+ * file. Prefers hardlinks, so the fixture costs no extra disk, and falls back to
+ * copying when the weights and the system temp directory are on different
+ * volumes — linking across filesystems is not possible, and the weights may
+ * legitimately live outside the temp volume.
+ */
+async function linkFixture() {
   const scratch = await fs.mkdtemp(path.join(os.tmpdir(), "voice-native-"))
 
   for (const name of ["encoder.int8.onnx", "decoder.int8.onnx", "joiner.int8.onnx", "tokens.txt", "test.wav"]) {
-    await fs.link(path.join(weights!, name), path.join(scratch, name))
+    const from = path.join(weights!, name)
+    const to = path.join(scratch, name)
+
+    try {
+      await fs.link(from, to)
+    } catch {
+      // EXDEV, or a filesystem that does not support links.
+      await fs.copyFile(from, to)
+    }
   }
 
   return { scratch, wav: path.join(scratch, "test.wav") }
@@ -176,7 +190,7 @@ describe.skipIf(skip)("Parakeet against real weights", () => {
   test("weights can be supplied from any directory", async () => {
     // `directory` is the only thing deciding where weights come from, which is
     // what makes the engine testable and the download location configurable.
-    const { scratch, wav } = await linkFixture(weights!)
+    const { scratch, wav } = await linkFixture()
 
     try {
       const result = await probeWeights(scratch, wav)
@@ -187,7 +201,7 @@ describe.skipIf(skip)("Parakeet against real weights", () => {
   })
 
   test("a missing weight file fails loudly instead of returning empty text", async () => {
-    const { scratch, wav } = await linkFixture(weights!)
+    const { scratch, wav } = await linkFixture()
 
     try {
       await fs.rm(path.join(scratch, "joiner.int8.onnx"))

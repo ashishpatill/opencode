@@ -3,8 +3,13 @@
  *
  * Recognition runs in the main process, not the renderer: the renderer is Vite
  * and a native inference module does not belong in a web bundle. Audio crosses
- * this boundary as raw 16 kHz mono samples, which keeps the payload small enough
- * to avoid a base64 round trip of the whole utterance.
+ * this boundary as raw 16 kHz mono samples so the engine receives exactly what
+ * it expects, with no decoding step that could silently change the rate.
+ *
+ * The cost is honest and measured: a sample is one JSON number, so a 5-second
+ * utterance is roughly 1 MB on the wire and a full 35-second chunk about 7 MB.
+ * That is fine for dictation, which is short by nature, and it is the reason
+ * utterances are chunked rather than sent as one unbounded recording.
  */
 import { Schema } from "effect"
 import { Rpc, RpcGroup } from "effect/rpc"

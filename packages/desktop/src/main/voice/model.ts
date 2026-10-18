@@ -15,9 +15,32 @@
  *   same path.
  */
 
-import { app } from "electron"
 import fs from "node:fs/promises"
+import { createRequire } from "node:module"
 import path from "node:path"
+
+const nodeRequire = createRequire(import.meta.url)
+
+/**
+ * The app's user-data directory, resolved when asked rather than at import.
+ *
+ * `electron` is required lazily through `createRequire` so this module can be
+ * imported with no Electron runtime present. A static import would make the
+ * whole engine graph unloadable outside the app — including under the test
+ * runner, where it would fail on an export that only exists in a real Electron
+ * process, and where the failure depends on which file happened to load first.
+ */
+function userDataDirectory(): string {
+  // SAFETY: `electron`'s own types describe this export, but requiring it lazily
+  // means the compiler cannot see the module here. Only `app.getPath` is used.
+  const { app } = nodeRequire("electron") as { app: { getPath(name: string): string } }
+
+  return app.getPath("userData")
+}
+
+function weightsDirectory(): string {
+  return path.join(userDataDirectory(), "voice", "parakeet-tdt-0.6b-v2-int8")
+}
 
 /** Shown in the UI so the control can say what it is downloading. */
 export const MODEL_LABEL = "Parakeet TDT 0.6B v2 (int8)"
@@ -128,7 +151,7 @@ export function ensureModel(options: { onProgress?: (p: ModelProgress) => void; 
   if (inFlight) return inFlight
 
   const fetchImpl = options.fetchImpl ?? ((url: string) => fetch(url))
-  const dir = path.join(app.getPath("userData"), "voice", "parakeet-tdt-0.6b-v2-int8")
+  const dir = weightsDirectory()
 
   inFlight = (async () => {
     await fs.mkdir(dir, { recursive: true })
@@ -150,7 +173,7 @@ export function ensureModel(options: { onProgress?: (p: ModelProgress) => void; 
 
 /** Where the weights live once downloaded, whether or not they are present yet. */
 export function modelDirectory(): string {
-  return path.join(app.getPath("userData"), "voice", "parakeet-tdt-0.6b-v2-int8")
+  return weightsDirectory()
 }
 
 /**

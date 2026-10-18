@@ -1,16 +1,11 @@
-import { describe, expect, mock, test } from "bun:test"
+import { afterAll, describe, expect, test } from "bun:test"
 import fs from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 
-// `model.ts` resolves weight paths through Electron's `app.getPath`. Stub the
-// module before importing it, since no Electron runtime exists under the test
-// runner. Doing this first means the engine logic itself can be exercised
-// without a display or a packaged app.
-const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), "opencode-voice-test-"))
-
-mock.module("electron", () => ({ app: { getPath: () => dataDir } }))
-
+// No Electron stub is needed: `model.ts` requires `electron` lazily, and every
+// test here passes an explicit weight directory, so the app's user-data path is
+// never consulted.
 const { registerVoiceEngine, voiceStatus, prepareVoiceEngine } = await import("./engine")
 
 const { createParakeetEngine, MIN_SAMPLES } = await import("./parakeet")
@@ -76,8 +71,23 @@ function recognizerThat(decode: () => SherpaResult): SherpaOfflineRecognizer {
   }
 }
 
+/**
+ * All scratch directories made by this file, so they can be removed at the end.
+ * The encoder fixture is a 622 MB sparse file: it costs nothing on disk, but
+ * leaving dozens of directories behind across runs is still litter.
+ */
+const scratchDirs = new Set<string>()
+
+afterAll(async () => {
+  await Promise.all([...scratchDirs].map((dir) => fs.rm(dir, { recursive: true, force: true })))
+})
+
 async function scratchDir() {
-  return await fs.mkdtemp(path.join(os.tmpdir(), "parakeet-test-"))
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "parakeet-test-"))
+
+  scratchDirs.add(dir)
+
+  return dir
 }
 
 /**
