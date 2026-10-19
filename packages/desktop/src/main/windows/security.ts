@@ -1,21 +1,26 @@
 import type { BrowserWindow } from "electron"
 import { SidecarCredentials } from "../service/sidecar-credentials"
 import { addRendererHeaders, hasHeader, upsertHeader } from "./headers"
+import { rendererMayUse } from "./permissions"
 import { isRendererUrl } from "./scheme"
-
-const rendererPermissions = new Set(["clipboard-sanitized-write", "notifications"])
 
 export function allowRendererPermissions(win: BrowserWindow) {
   const webContentsId = win.webContents.id
   win.webContents.session.setPermissionRequestHandler((webContents, permission, callback, details) => {
+    // `mediaTypes` exists only on the media variant of the details union.
+    const mediaTypes = "mediaTypes" in details ? details.mediaTypes : undefined
+
     callback(
-      rendererPermissions.has(permission) && isRendererUrl(details.requestingUrl) && webContents.id === webContentsId,
+      rendererMayUse(permission, mediaTypes) &&
+        isRendererUrl(details.requestingUrl) &&
+        webContents.id === webContentsId,
     )
   })
   win.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
-    if (!rendererPermissions.has(permission)) return false
-
     if (webContents && webContents.id !== webContentsId) return false
+
+    // A check names one device rather than a list.
+    if (!rendererMayUse(permission, details.mediaType ? [details.mediaType] : undefined)) return false
 
     return isRendererUrl(details.requestingUrl) || isRendererUrl(requestingOrigin)
   })
